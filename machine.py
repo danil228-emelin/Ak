@@ -1,8 +1,9 @@
+import sys
+
 import Opcode as Op
 from enum import Enum
 import argparse
 import os
-import sys
 
 
 class Signals(str, Enum):
@@ -19,10 +20,10 @@ class Signals(str, Enum):
 
 class DataPath:
 
-    def __init__(self, data, memory_size, input_buffer, stack_size):
+    def __init__(self, code_data, memory_size, input_buffer, stack_size):
         assert memory_size > 100 and memory_size % 2 == 0, "Memory size should be non-zero and even"
         assert stack_size > 0 and stack_size % 2 == 0, "Stack size should be non-zero and even"
-        assert len(data) <= memory_size, "Data size must be less or equal memory_size"
+        assert len(code_data) <= memory_size / 2, "Data size must be less or equal memory_size"
 
         self.memory_size = memory_size
 
@@ -36,7 +37,7 @@ class DataPath:
 
         self.data_register = memory_size - 1
 
-        self.memory = [0] * memory_size
+        self.memory = [""] * memory_size
 
         self._counter = 0
 
@@ -50,10 +51,16 @@ class DataPath:
 
         self.stack_size = stack_size
 
-        for el in data:
-            for basic_operation in el["basic_operations"]:
-                self.memory[self.command_register + self._counter] = basic_operation
-                self._counter += 1
+        for el in code_data:
+            if el["procedure_name"] == "LOOP":
+                for _ in range(int(el["iterations"])):
+                    for basic_operation in el["basic_operations"]:
+                        self.memory[self.command_register + self._counter] = basic_operation
+                        self._counter += 1
+            else:
+                for basic_operation in el["basic_operations"]:
+                    self.memory[self.command_register + self._counter] = basic_operation
+                    self._counter += 1
 
     def __str__(self):
         return f"Memory size:{self.memory_size}\nIo_port_read:{self.io_port_read}\nIo port write:{self.io_port_write}\nData register:{self.data_register}\nMemory:{self.memory}\nCommand register:{self.command_register}\nStack size:{self.stack_size}\nInput buffer:{self.input_buffer}"
@@ -96,8 +103,6 @@ class DataPath:
         assert 0 <= self.stack_top_register < self.stack_size, "out of memory: {}".format(
             self.stack_top_register)
         element = self.stack.pop(self.stack_top_register)
-        print("signal_latch_pop")
-        print(element)
         self.stack_top_register -= 1
         return element
 
@@ -168,10 +173,9 @@ class ControlUnit:
 
 def simulation(data, input_buffer, memory_size, stack_size, limit):
     data_path = DataPath(data, memory_size, input_buffer, stack_size)
-
     control_unit = ControlUnit(data_path)
     instr_counter = 0
-    while instr_counter < limit and data_path.memory[data_path.command_register] != 0:
+    while instr_counter < limit and data_path.memory[data_path.command_register] != "":
         control_unit.decode_and_execute_instruction()
         instr_counter += 1
 
@@ -214,7 +218,7 @@ def main():
         input_buffer=input_buffer,
         memory_size=256,
         stack_size=64,
-        limit=10, )
+        limit=128, )
 
     print(f"output:{output}")
     print(f"Instructions:{instr_counter}")
