@@ -12,6 +12,7 @@ class Opcode(str, Enum):
     INC = "increment"
     DEC = "decrement"
     INPUT = "input"
+    WRITE_STRING_INTO_MEMORY = "write_string_into_memory"
 
     @classmethod
     def is_value_in_Opcode(cls, value):

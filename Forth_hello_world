@@ -3,3 +3,6 @@
 LOOP PRINT 11 ;
 : END halt ;
 END ;
+PRINT ;
+PRINT ;
+PRINT ;
