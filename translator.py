@@ -60,6 +60,10 @@ def dereference_procedure_name(code: List[str], input_file_name):
 
             assert re.match(r"[A-Z]+[0-9]*", splitted_line[1]) is not None, \
                 f"\nERROR:wrong procedure Name '{splitted_line[1]}'.\nProcedure name must match pattern [A-Z]+[0-9]*.\nLine {line_number} in file {input_file_name}\n{line}"
+            if splitted_line[1] == "SUM":
+                assert re.match("-?\\d", splitted_line[2]) and re.match("\\d", splitted_line[3]), "Argunments for sum must be digits."
+                TranslatorHelper.dictionary_definition_procedures["SUM"] = f"sum {splitted_line[2]} {splitted_line[3]}"
+                continue
             if splitted_line[1] == "WRITE":
                 literal = splitted_line[2]
                 assert re.match(r"\".+\"",
@@ -68,6 +72,7 @@ def dereference_procedure_name(code: List[str], input_file_name):
 
                 chars = list(literal)[1:-1]
                 chars.reverse()
+                chars.insert(0, "0")
                 for index, char in enumerate(chars):
                     if char == "\"" or char == "_":
                         continue
@@ -78,6 +83,8 @@ def dereference_procedure_name(code: List[str], input_file_name):
                 continue
             procedure_body = splitted_line[2:]
             for ind, term in enumerate(procedure_body):
+                if re.match("\\d", term):
+                    continue
 
                 if re.match(r"[A-Z]+[0-9]*", term) is not None:
                     assert term in TranslatorHelper.dictionary_definition_procedures, \
@@ -118,7 +125,7 @@ def dereference_procedure_name(code: List[str], input_file_name):
                     "WHILE " + splitted_line[1] + " " + TranslatorHelper.dictionary_definition_procedures[
                         splitted_line[2]] + " ;")
             else:
-                assert False, "Wrong syntax line\nnLine {line_number} in file {input_file_name}\n{line}\n{line.strip()}"
+                assert False, f"Wrong syntax line\nLine {line_number} in file {input_file_name}\n{line}"
     return dereference_code
 
 
@@ -149,6 +156,12 @@ def translate_and_write(dereference_code: List[str], output_file_name: str, inpu
             while_body = splitted_line[2:-1]
             json_object = {"procedure_name": "WHILE", "basic_operations": while_body, "condition": splitted_line[1],
                            "line_in_dereference_code": line_number}
+        elif procedure_name == "SUM":
+            procedure_body = TranslatorHelper.get_element(procedure_name)
+            json_object = {"procedure_name": procedure_name,
+                           "basic_operations": [procedure_body[0]],
+                           "arguments": [procedure_body[1], procedure_body[2]],
+                           "line_in_dereference_code": line_number}
         else:
             json_object = {"procedure_name": procedure_name,
                            "basic_operations": TranslatorHelper.get_element(procedure_name),
@@ -159,6 +172,7 @@ def translate_and_write(dereference_code: List[str], output_file_name: str, inpu
     with open(output_file_name, "w") as outfile:
         json.dump(json_list, outfile, indent=4)
 
+
 def main():
     obj = Parser()
     command_line_arguments = obj.parser.parse_args()
@@ -167,8 +181,6 @@ def main():
         source = f.read()
 
     code = dereference_procedure_name(source.split("\n"), command_line_arguments.input)
-
     translate_and_write(code, command_line_arguments.output, command_line_arguments.input)
-
 
 main() if __name__ == "__main__" else ''

@@ -4,6 +4,7 @@ import Opcode as Op
 from enum import Enum
 import argparse
 import os
+import re
 
 
 class Signals(str, Enum):
@@ -115,10 +116,13 @@ class DataPath:
 
         if sel == Signals.write_data_to_IO_port_from_buffer:
             if len(self.input_buffer) <= 0:
-                print(f"Input buffer is empty.\n{self}")
+                print(f"\nInput buffer is empty.\n{self.output_buffer}")
                 sys.exit(0)
             symbol = self.input_buffer.pop(0)
             symbol_code = ord(symbol)
+            if symbol_code == "0":
+                print("END OF LINE detected")
+                return
             assert -128 <= symbol_code <= 127, "input symbol_code is out of bound: {}".format(symbol_code)
             self.memory[self.io_port_write] = symbol_code
 
@@ -134,10 +138,23 @@ class ControlUnit:
             "print": lambda: self.data_path.output_buffer.append(chr(int(self.data_path.signal_latch_pop()))),
             "halt": self.stop,
             "write_string_into_memory": self.write_string_into_memory_handler,
-            "read_mem_to_stack": self.read_mem_to_stack_handler
+            "read_mem_to_stack": self.read_mem_to_stack_handler,
+            "sum": self.sum_handler
         }
         self.stop_machine = False
         self.current_command = ""
+
+    def sum_handler(self):
+        instr = self.data_path.memory[self.data_path.command_register]
+        first_arg = (instr["arguments"][0])
+        second_arg = (instr["arguments"][1])
+        print(f"ARGUMENTS:{first_arg},{second_arg}")
+        assert re.match("-?\\d+", first_arg) and re.match("\\d", second_arg), "Arguments for sum must be digits."
+        first_arg = int(first_arg)
+        second_arg = int(first_arg)
+        result = first_arg + second_arg
+        self.data_path.signal_write(Signals.write_data_to_mem_from_command, data=result)
+        self.data_path.signal_latch_data_register(Signals.DEC)
 
     def read_mem_to_stack_handler(self):
         self.data_path.signal_latch_data_register(Signals.INC)

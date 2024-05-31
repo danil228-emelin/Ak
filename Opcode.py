@@ -13,6 +13,7 @@ class Opcode(str, Enum):
     DEC = "decrement"
     INPUT = "input"
     WRITE_STRING_INTO_MEMORY = "write_string_into_memory"
+    SUM = "sum"
 
     @classmethod
     def is_value_in_Opcode(cls, value):
