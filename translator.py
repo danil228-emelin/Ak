@@ -61,8 +61,7 @@ def dereference_procedure_name(code: List[str], input_file_name):
             assert re.match(r"[A-Z]+[0-9]*", splitted_line[1]) is not None, \
                 f"\nERROR:wrong procedure Name '{splitted_line[1]}'.\nProcedure name must match pattern [A-Z]+[0-9]*.\nLine {line_number} in file {input_file_name}\n{line}"
             if splitted_line[1] == "SUM":
-                assert re.match("-?\\d", splitted_line[2]) and re.match("\\d", splitted_line[3]), "Argunments for sum must be digits."
-                TranslatorHelper.dictionary_definition_procedures["SUM"] = f"sum {splitted_line[2]} {splitted_line[3]}"
+                TranslatorHelper.dictionary_definition_procedures["SUM"] = "sum"
                 continue
             if splitted_line[1] == "WRITE":
                 literal = splitted_line[2]
@@ -160,7 +159,6 @@ def translate_and_write(dereference_code: List[str], output_file_name: str, inpu
             procedure_body = TranslatorHelper.get_element(procedure_name)
             json_object = {"procedure_name": procedure_name,
                            "basic_operations": [procedure_body[0]],
-                           "arguments": [procedure_body[1], procedure_body[2]],
                            "line_in_dereference_code": line_number}
         else:
             json_object = {"procedure_name": procedure_name,

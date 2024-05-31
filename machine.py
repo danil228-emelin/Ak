@@ -5,6 +5,7 @@ from enum import Enum
 import argparse
 import os
 import re
+import ALU
 
 
 class Signals(str, Enum):
@@ -25,7 +26,7 @@ class DataPath:
     def __init__(self, code_data, memory_size, input_buffer, stack_size):
         assert memory_size > 100 and memory_size % 2 == 0, "Memory size should be non-zero and even"
         assert stack_size > 0 and stack_size % 2 == 0, "Stack size should be non-zero and even"
-        assert len(code_data) <= memory_size / 2, "Data size must be less or equal memory_size"
+        assert len(code_data) <= memory_size / 2, "Commands  size must be less or equal memory_size"
 
         self.memory_size = memory_size
 
@@ -35,7 +36,7 @@ class DataPath:
 
         self._memory_delimiter = memory_size / 2
 
-        self.data_register = memory_size - 1
+        self.data_register: int = memory_size - 1
 
         self.memory = [""] * memory_size
 
@@ -46,8 +47,15 @@ class DataPath:
         self.stack_top_register = -1
 
         self.stack: list = []
+        self.input_buffer = []
+        for i in range(len(input_buffer)):
+            if input_buffer[i].isdigit:
+                self.memory[self.data_register] = input_buffer[i]
+                self.data_register -= 1
+            else:
+                self.input_buffer.append(input_buffer[i])
 
-        self.input_buffer = input_buffer.copy()
+        self.data_register = memory_size - 1
 
         self.output_buffer = []
 
@@ -146,15 +154,22 @@ class ControlUnit:
 
     def sum_handler(self):
         instr = self.data_path.memory[self.data_path.command_register]
-        first_arg = (instr["arguments"][0])
-        second_arg = (instr["arguments"][1])
-        print(f"ARGUMENTS:{first_arg},{second_arg}")
-        assert re.match("-?\\d+", first_arg) and re.match("\\d", second_arg), "Arguments for sum must be digits."
-        first_arg = int(first_arg)
-        second_arg = int(first_arg)
-        result = first_arg + second_arg
-        self.data_path.signal_write(Signals.write_data_to_mem_from_command, data=result)
+
+        self.data_path.signal_latch_push_data(Signals.read_data_from_mem_to_stack)
         self.data_path.signal_latch_data_register(Signals.DEC)
+        self.data_path.signal_latch_push_data(Signals.read_data_from_mem_to_stack)
+        self.data_path.signal_latch_data_register(Signals.DEC)
+
+        first_arg: int = self.data_path.signal_latch_pop()
+        second_arg: int = self.data_path.signal_latch_pop()
+
+        first_arg = int(first_arg)
+        second_arg = int(second_arg)
+
+        result = ALU.ALU.sum(first_arg, second_arg)
+
+        self.data_path.signal_write(Signals.write_data_to_mem_from_command, data=result)
+        self.data_path.signal_latch_data_register(Signals.INC)
 
     def read_mem_to_stack_handler(self):
         self.data_path.signal_latch_data_register(Signals.INC)
@@ -224,7 +239,7 @@ def simulation(data, input_buffer, memory_size, stack_size, limit):
         print("DATA IN MEMORY_COMMAND IS NULL")
     else:
         print("HALT invoked")
-    return control_unit.data_path.output_buffer, instr_counter, control_unit.get_tick()
+    return control_unit.data_path.output_buffer, instr_counter, control_unit.get_tick(),control_unit
 
 
 def file_checker(path):
@@ -257,8 +272,7 @@ def main():
         input_text = file.read()
         for char in input_text:
             input_buffer.append(char)
-
-    output, instr_counter, ticks = simulation(
+    output, instr_counter, ticks ,control_un= simulation(
         data=code,
         input_buffer=input_buffer,
         memory_size=256,
@@ -266,6 +280,7 @@ def main():
         limit=128, )
 
     print(f"output:{output}")
+
     print(f"Instructions:{instr_counter}")
     print(f"ticks:{ticks}")
 
