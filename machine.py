@@ -50,7 +50,7 @@ class DataPath:
         self.stack: list = []
         self.input_buffer = []
         for i in range(len(input_buffer)):
-            if input_buffer[i].isdigit:
+            if input_buffer[i].isdigit():
                 self.memory[self.data_register] = input_buffer[i]
                 self.data_register -= 1
             else:
@@ -126,15 +126,10 @@ class DataPath:
 
         if sel == Signals.write_data_to_IO_port_from_buffer:
             if len(self.input_buffer) <= 0:
-                print(f"\nInput buffer is empty.\n{self.output_buffer}")
+                print(f"\nInput buffer is empty.\nOutput:{self.output_buffer}\n{self.stack}")
                 sys.exit(0)
             symbol = self.input_buffer.pop(0)
-            symbol_code = ord(symbol)
-            if symbol_code == "0":
-                print("END OF LINE detected")
-                return
-            assert -128 <= symbol_code <= 127, "input symbol_code is out of bound: {}".format(symbol_code)
-            self.memory[self.io_port_write] = symbol_code
+            self.memory[self.io_port_write] = symbol
 
 
 class ControlUnit:
@@ -145,7 +140,7 @@ class ControlUnit:
         self.basic_operations_handlers = {
             "write_mem_from_IO": lambda: self.data_path.signal_write(Signals.write_data_to_IO_port_from_buffer),
             "read_io_to_stack": lambda: self.data_path.signal_latch_push_data(Signals.read_data_from_IO_port_to_stack),
-            "print": lambda: self.data_path.output_buffer.append(self.data_path.signal_latch_pop()),
+            "print":self.print_handler,
             "halt": self.stop,
             "write_string_into_memory": self.write_string_into_memory_handler,
             "read_mem_to_stack": self.read_mem_to_stack_handler,
@@ -157,6 +152,10 @@ class ControlUnit:
         }
         self.stop_machine = False
         self.current_command = ""
+
+    def print_handler(self):
+        res = self.data_path.signal_latch_pop()
+        self.data_path.output_buffer.append(res)
 
     def inc_handler(self):
         self.data_path.signal_latch_data_register(Signals.INC)
@@ -258,7 +257,9 @@ class ControlUnit:
                     else:
                         self.basic_operations_handlers[else_body]()
                 else:
-                    [self.basic_operations_handlers[basic_operation]() for basic_operation in instr["basic_operations"]]
+                    for basic_operation in instr["basic_operations"]:
+                        print(f"Invoke {basic_operation}")
+                        self.basic_operations_handlers[basic_operation]()
                 if "$data_register" in instr['condition']:
                     condition = instr['condition']
                     condition = condition.replace("$data_register", f"{self.data_path.data_register}")
@@ -267,7 +268,9 @@ class ControlUnit:
                     condition = condition.replace("$*data_register",
                                                   f"{self.data_path.memory[self.data_path.data_register]}")
         else:
-            [self.basic_operations_handlers[basic_operation]() for basic_operation in instr["basic_operations"]]
+            for basic_operation in instr["basic_operations"]:
+                print(f"Invoke {basic_operation}")
+                self.basic_operations_handlers[basic_operation]()
 
         self.data_path.signal_latch_command_register(Signals.INC)
 
