@@ -9,11 +9,13 @@ class Opcode(str, Enum):
     HALT = "halt"
     WRITE_MEM_FROM_STACK = "write_mem_from_stack"
     WRITE_MEM_FROM_IO = "write_mem_from_IO"
-    INC = "increment"
-    DEC = "decrement"
+    INC = "inc"
+    DEC = "dec"
     INPUT = "input"
     WRITE_STRING_INTO_MEMORY = "write_string_into_memory"
     SUM = "sum"
+    SUM_ALL = "sum_all"
+    RESTORE = "restore"
 
     @classmethod
     def is_value_in_Opcode(cls, value):

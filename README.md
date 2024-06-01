@@ -24,6 +24,9 @@ loop :: = LOOP previously_defined_procedure iterations ;
 while :: = WHILE condition previously_defined_procedure ;
 1-true
 0-false
+$number-special variable for referencing value in memory
+
+IF ::= IF condition previously_defined_procedure ;
 
 iterations Должно быть натуральным числом.
 
@@ -62,6 +65,8 @@ SUM- специальное слово для суммирования.
 | inc   | increment| 1             | DR+1->DR
 | dec   | decrement| 1             | DR-1 ->DR     
 | write_literal_into_memory|write_literal_into_memory | Запись строки в память по адресу DR,DR-1 и тд.              
-| sum |sum| Сложить два числа.              
+| sum |sum| Сложить два числа.  
+|sum_all|sum_all| Складывает все числа на стеке и возвращает результат в память.
+|restore|restore| Restore initial value of Memory register.            
 
 ```

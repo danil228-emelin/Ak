@@ -1,5 +1,6 @@
 import sys
 
+import Opcode
 import Opcode as Op
 from enum import Enum
 import argparse
@@ -9,8 +10,8 @@ import ALU
 
 
 class Signals(str, Enum):
-    INC = "increment"
-    DEC = "decrement"
+    INC = "inc"
+    DEC = "dec"
     INPUT = "input"
     write_data_to_mem_from_command = "write_data_to_mem_from_command"
     write_data_to_mem_from_stack = "write_data_to_mem_from_stack"
@@ -65,16 +66,17 @@ class DataPath:
             self.memory[self.command_register + self._counter] = el
             self._counter += 1
 
+    def restore_memory_register(self):
+        self.data_register = self.memory_size - 1
+
     def __str__(self):
         return f"Memory size:{self.memory_size}\nIo_port_read:{self.io_port_write}\nIo port write:{self.io_port_write}\nData register:{self.data_register}\nMemory:{[el for el in self.memory if el != '']}\nCommand register:{self.command_register}\nStack size:{self.stack_size}\nInput buffer:{self.input_buffer}\nOutput buffer:{self.output_buffer}"
 
     def signal_latch_data_register(self, sel):
         assert sel in {Signals.INC.value, Signals.DEC.value}, "internal error, incorrect selector: {}".format(sel)
+        self.data_register = self.data_register - 1 if sel == Signals.DEC else self.data_register + 1
 
-        self.data_register = self.data_register - 1 if sel == Op.Opcode.DEC.value else self.data_register + 1
-
-        assert self._memory_delimiter <= self.data_register < self.memory_size, "out of memory: {}".format(
-            self.data_register)
+        assert self._memory_delimiter <= self.data_register < self.memory_size, f"out of memory: \nMemory  size:{self.memory_size}\nMemory delimeter:{self._memory_delimiter}\nData register:{self.data_register}"
 
     def signal_latch_command_register(self, sel):
         assert sel in {Signals.INC.value, Signals.DEC.value}, "internal error, incorrect selector: {}".format(sel)
@@ -143,17 +145,34 @@ class ControlUnit:
         self.basic_operations_handlers = {
             "write_mem_from_IO": lambda: self.data_path.signal_write(Signals.write_data_to_IO_port_from_buffer),
             "read_io_to_stack": lambda: self.data_path.signal_latch_push_data(Signals.read_data_from_IO_port_to_stack),
-            "print": lambda: self.data_path.output_buffer.append(chr(int(self.data_path.signal_latch_pop()))),
+            "print": lambda: self.data_path.output_buffer.append(self.data_path.signal_latch_pop()),
             "halt": self.stop,
             "write_string_into_memory": self.write_string_into_memory_handler,
             "read_mem_to_stack": self.read_mem_to_stack_handler,
-            "sum": self.sum_handler
+            "sum": self.sum_handler,
+            "restore": self.data_path.restore_memory_register,
+            "dec": self.dec_handler,
+            "sum_all": self.sum_all_handler,
+            "inc": self.inc_handler
         }
         self.stop_machine = False
         self.current_command = ""
 
+    def inc_handler(self):
+        self.data_path.signal_latch_data_register(Signals.INC)
+
+    def sum_all_handler(self):
+        counter = 0
+        while len(self.data_path.stack) > 0:
+            first_value: int = int(self.data_path.stack.pop())
+            counter = ALU.ALU.sum(counter, first_value)
+        self.data_path.stack_top_register = len(self.data_path.stack)
+        self.data_path.stack.append(counter)
+
+    def dec_handler(self):
+        self.data_path.signal_latch_data_register(Signals.DEC)
+
     def sum_handler(self):
-        instr = self.data_path.memory[self.data_path.command_register]
 
         self.data_path.signal_latch_push_data(Signals.read_data_from_mem_to_stack)
         self.data_path.signal_latch_data_register(Signals.DEC)
@@ -172,8 +191,8 @@ class ControlUnit:
         self.data_path.signal_latch_data_register(Signals.INC)
 
     def read_mem_to_stack_handler(self):
-        self.data_path.signal_latch_data_register(Signals.INC)
         self.data_path.signal_latch_push_data(Signals.read_data_from_mem_to_stack)
+        self.data_path.signal_latch_data_register(Signals.INC)
 
     def write_string_into_memory_handler(self):
         instr = self.data_path.memory[self.data_path.command_register]
@@ -216,9 +235,37 @@ class ControlUnit:
             [[self.basic_operations_handlers[basic_operation]() for basic_operation in instr["basic_operations"]]
              for p in [i for i in range(int(instr['iterations']))]]
         elif instr['procedure_name'] == "WHILE":
-            print(f"condition:{instr['condition']}")
-            while instr['condition']:
-                [self.basic_operations_handlers[basic_operation]() for basic_operation in instr["basic_operations"]]
+            condition = instr['condition']
+            if "$data_register" in condition:
+                condition = condition.replace("$data_register", f"{self.data_path.data_register}")
+            if "$*data_register" in condition:
+                condition = condition.replace("$*data_register",
+                                              f"{self.data_path.memory[self.data_path.data_register]}")
+
+            while eval(condition):
+                if isinstance(instr["basic_operations"], dict):
+                    if_condition = instr["basic_operations"]["CONDITION"]
+                    if_body = instr["basic_operations"]["IF_BODY"]
+                    else_body = instr["basic_operations"]["ELSE_BODY"]
+                    if "$data_register" in if_condition:
+                        if_condition = if_condition.replace("$data_register", f"{self.data_path.data_register}")
+                    if "$*data_register" in if_condition:
+                        if_condition = if_condition.replace("$*data_register",
+                                                            f"{self.data_path.memory[self.data_path.data_register]}")
+
+                    if eval(if_condition):
+                        self.basic_operations_handlers[if_body]()
+                    else:
+                        self.basic_operations_handlers[else_body]()
+                else:
+                    [self.basic_operations_handlers[basic_operation]() for basic_operation in instr["basic_operations"]]
+                if "$data_register" in instr['condition']:
+                    condition = instr['condition']
+                    condition = condition.replace("$data_register", f"{self.data_path.data_register}")
+                if "$*data_register" in instr['condition']:
+                    condition = instr['condition']
+                    condition = condition.replace("$*data_register",
+                                                  f"{self.data_path.memory[self.data_path.data_register]}")
         else:
             [self.basic_operations_handlers[basic_operation]() for basic_operation in instr["basic_operations"]]
 
@@ -239,7 +286,7 @@ def simulation(data, input_buffer, memory_size, stack_size, limit):
         print("DATA IN MEMORY_COMMAND IS NULL")
     else:
         print("HALT invoked")
-    return control_unit.data_path.output_buffer, instr_counter, control_unit.get_tick(),control_unit
+    return control_unit.data_path.output_buffer, instr_counter, control_unit.get_tick(), control_unit
 
 
 def file_checker(path):
@@ -272,10 +319,10 @@ def main():
         input_text = file.read()
         for char in input_text:
             input_buffer.append(char)
-    output, instr_counter, ticks ,control_un= simulation(
+    output, instr_counter, ticks, control_un = simulation(
         data=code,
         input_buffer=input_buffer,
-        memory_size=256,
+        memory_size=512,
         stack_size=64,
         limit=128, )
 

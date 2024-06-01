@@ -87,7 +87,7 @@ def dereference_procedure_name(code: List[str], input_file_name):
 
                 if re.match(r"[A-Z]+[0-9]*", term) is not None:
                     assert term in TranslatorHelper.dictionary_definition_procedures, \
-                        f"In procedure definition only previously defined procedures сan be referenced.\nLine {line_number} in file {input_file_name}\n{line}\n{term}."
+                        f"In procedure definition only previously defined procedures сan be referenced.\nLine {line_number} in file {input_file_name}\nWhole Line:{line}\nProcedure name:{term}."
                     is_contain_procedure = True
                     dereference_line_procedure = (
                             ' '.join(splitted_line[:2]) + ' ' + ' '.join(
@@ -96,7 +96,7 @@ def dereference_procedure_name(code: List[str], input_file_name):
 
                 if re.match(r"[a-z]+", term) is not None:
                     assert Opcode.Opcode.is_value_in_Opcode(term), \
-                        f"in Procedure definition can contain only basic operation from Opcode class.\nLine {line_number} in file {input_file_name}\n{line}\n'{term}'"
+                        f"Procedure definition can contain only basic operation from Opcode class.\nLine {line_number} in file {input_file_name}\n{line}\n'{term}'"
 
             if is_contain_procedure:
                 TranslatorHelper.dictionary_definition_procedures[
@@ -107,7 +107,7 @@ def dereference_procedure_name(code: List[str], input_file_name):
 
         else:
 
-            if splitted_line[0] != "LOOP" and splitted_line[0] != "WHILE":
+            if splitted_line[0] != "LOOP" and splitted_line[0] != "WHILE" and splitted_line[0] != "IF":
                 assert splitted_line[0] in TranslatorHelper.dictionary_definition_procedures, \
                     f"Only previously defined procedure can be invoked.\nLine {line_number} in file {input_file_name}\n{line}\n{line.strip()}"
                 dereference_code.append(line)
@@ -119,10 +119,21 @@ def dereference_procedure_name(code: List[str], input_file_name):
                         2] + " ;")
             elif splitted_line[0] == "WHILE":
                 assert splitted_line[2] in TranslatorHelper.dictionary_definition_procedures, \
-                    f"Error in WHILE body:Only previously defined procedure can be invoked.\nLine {line_number} in file {input_file_name}\n{line}\n{line.strip()}"
+                    f"Error in WHILE body:WRONG KEY IN TranslatorHelper.dictionary_definition_procedures.\nWrong key:\"{splitted_line}\"\nLine:{line_number}\nFile:{input_file_name}\n{line}"
                 dereference_code.append(
                     "WHILE " + splitted_line[1] + " " + TranslatorHelper.dictionary_definition_procedures[
                         splitted_line[2]] + " ;")
+            elif splitted_line[0] == "IF":
+                assert splitted_line[2] in TranslatorHelper.dictionary_definition_procedures, \
+                    f"Error in IF body:Only previously defined procedure can be used un true_body.\nWrong key:\"{splitted_line[2]}\"\nLine:{line_number}\nFile:{input_file_name}\n{line}"
+
+                assert splitted_line[4] in TranslatorHelper.dictionary_definition_procedures, \
+                    f"Error in IF body:Only previously defined procedure can be used un true_body.\nWrong key:\"{splitted_line[4]}\"\nLine:{line_number}\nFile:{input_file_name}\n{line}"
+
+                TranslatorHelper.dictionary_definition_procedures[
+                    "IF"] = f"CONDITION:{splitted_line[1]},IF_BODY:{TranslatorHelper.dictionary_definition_procedures[splitted_line[2]]},ELSE_BODY:{TranslatorHelper.dictionary_definition_procedures[splitted_line[4]]}"
+
+
             else:
                 assert False, f"Wrong syntax line\nLine {line_number} in file {input_file_name}\n{line}"
     return dereference_code
@@ -147,6 +158,7 @@ def translate_and_write(dereference_code: List[str], output_file_name: str, inpu
                            "argument": literal,
                            "line_in_dereference_code": line_number}
 
+
         elif procedure_name == "LOOP":
             loop_body = splitted_line[1:-2]
             json_object = {"procedure_name": "LOOP", "basic_operations": loop_body, "iterations": splitted_line[-2],
@@ -154,6 +166,10 @@ def translate_and_write(dereference_code: List[str], output_file_name: str, inpu
         elif procedure_name == "WHILE":
             while_body = splitted_line[2:-1]
             json_object = {"procedure_name": "WHILE", "basic_operations": while_body, "condition": splitted_line[1],
+                           "line_in_dereference_code": line_number}
+        elif "IF" in procedure_name:
+            if_body = splitted_line[2:-1]
+            json_object = {"procedure_name": "IF", "basic_operations": if_body, "condition": splitted_line[1],
                            "line_in_dereference_code": line_number}
         elif procedure_name == "SUM":
             procedure_body = TranslatorHelper.get_element(procedure_name)
@@ -165,6 +181,11 @@ def translate_and_write(dereference_code: List[str], output_file_name: str, inpu
                            "basic_operations": TranslatorHelper.get_element(procedure_name),
                            "line_in_dereference_code": line_number}
 
+        if "CONDITION" in line:
+            if_condition =  next(x for x in splitted_line if x.startswith("CONDITION"))
+            pattern = re.compile(r'([\w]+):([^,]+)')
+            converted_dict = dict(pattern.findall(if_condition))
+            json_object["basic_operations"] =converted_dict
         json_list.append(json_object)
 
     with open(output_file_name, "w") as outfile:
@@ -179,6 +200,8 @@ def main():
         source = f.read()
 
     code = dereference_procedure_name(source.split("\n"), command_line_arguments.input)
+
     translate_and_write(code, command_line_arguments.output, command_line_arguments.input)
+
 
 main() if __name__ == "__main__" else ''
