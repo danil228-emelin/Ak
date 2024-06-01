@@ -129,6 +129,9 @@ class DataPath:
                 print(f"\nInput buffer is empty.\nOutput:{self.output_buffer}\n{self.stack}")
                 sys.exit(0)
             symbol = self.input_buffer.pop(0)
+            if symbol=="0":
+                print("END OF LINE DETECTED.")
+                return
             self.memory[self.io_port_write] = symbol
 
 
@@ -195,8 +198,8 @@ class ControlUnit:
 
     def write_string_into_memory_handler(self):
         instr = self.data_path.memory[self.data_path.command_register]
-        symbol_code = ord(instr["argument"])
-        assert -128 <= symbol_code <= 127, "input symbol_code is out of bound: {}".format(symbol_code)
+        symbol_code = instr["argument"]
+
         self.data_path.signal_write(Signals.write_data_to_mem_from_command, data=symbol_code)
         self.data_path.signal_latch_data_register(Signals.DEC)
 
