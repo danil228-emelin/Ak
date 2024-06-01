@@ -7,7 +7,7 @@ LOOP SUM 32 ;
 IF $*data_register%2==0 WRITE_TO_STACK ELSE ELSE_BODY ;
 : WRITE_TO_STACK_IF_EVEN IF ;
 DEC_NEED ;
-WHILE $data_register<=255 WRITE_TO_STACK_IF_EVEN ;
+WHILE $data_register<=510 WRITE_TO_STACK_IF_EVEN ;
 : SUM_ALL sum_all ;
 SUM_ALL ;
 PRINT ;

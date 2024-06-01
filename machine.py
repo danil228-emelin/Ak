@@ -184,6 +184,7 @@ class ControlUnit:
         first_arg: int = self.data_path.signal_latch_pop()
         second_arg: int = self.data_path.signal_latch_pop()
 
+
         first_arg = int(first_arg)
         second_arg = int(second_arg)
 
@@ -191,6 +192,7 @@ class ControlUnit:
 
         self.data_path.signal_write(Signals.write_data_to_mem_from_command, data=result)
         self.data_path.signal_latch_data_register(Signals.INC)
+
 
     def read_mem_to_stack_handler(self):
         self.data_path.signal_latch_push_data(Signals.read_data_from_mem_to_stack)
@@ -238,6 +240,7 @@ class ControlUnit:
              for p in [i for i in range(int(instr['iterations']))]]
         elif instr['procedure_name'] == "WHILE":
             condition = instr['condition']
+            print(condition)
             if "$data_register" in condition:
                 condition = condition.replace("$data_register", f"{self.data_path.data_register}")
             if "$*data_register" in condition:
