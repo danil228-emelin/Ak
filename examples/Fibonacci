@@ -1,0 +1,13 @@
+: SUM ;
+LOOP SUM 32 ;
+: DEC_NEED dec ;
+: WRITE_TO_STACK read_mem_to_stack ;
+: ELSE_BODY inc ;
+: PRINT print ;
+IF $*data_register%2==0 WRITE_TO_STACK ELSE ELSE_BODY ;
+: WRITE_TO_STACK_IF_EVEN IF ;
+DEC_NEED ;
+WHILE $data_register<=510 WRITE_TO_STACK_IF_EVEN ;
+: SUM_ALL sum_all ;
+SUM_ALL ;
+PRINT ;

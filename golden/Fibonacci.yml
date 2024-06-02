@@ -1,0 +1,1432 @@
+in_source: |
+  : SUM ;
+  LOOP SUM 32 ;
+  : DEC_NEED dec ;
+  : WRITE_TO_STACK read_mem_to_stack ;
+  : ELSE_BODY inc ;
+  : PRINT print ;
+  IF $*data_register%2==0 WRITE_TO_STACK ELSE ELSE_BODY ;
+  : WRITE_TO_STACK_IF_EVEN IF ;
+  DEC_NEED ;
+  WHILE $data_register<=510 WRITE_TO_STACK_IF_EVEN ;
+  : SUM_ALL sum_all ;
+  SUM_ALL ;
+  PRINT ;
+in_stdin: |
+  12
+
+out_formatted_code: |
+  [
+    {
+        "procedure_name": "LOOP",
+        "basic_operations": [
+            "sum"
+        ],
+        "iterations": "32",
+        "line_in_dereference_code": 1
+    },
+    {
+        "procedure_name": "DEC_NEED",
+        "basic_operations": [
+            "dec"
+        ],
+        "line_in_dereference_code": 2
+    },
+    {
+        "procedure_name": "WHILE",
+        "basic_operations": {
+            "CONDITION": "$*data_register%2==0",
+            "IF_BODY": "read_mem_to_stack",
+            "ELSE_BODY": "inc"
+        },
+        "condition": "$data_register<=510",
+        "line_in_dereference_code": 3
+    },
+    {
+        "procedure_name": "SUM_ALL",
+        "basic_operations": [
+            "sum_all"
+        ],
+        "line_in_dereference_code": 4
+    },
+    {
+        "procedure_name": "PRINT",
+        "basic_operations": [
+            "print"
+        ],
+        "line_in_dereference_code": 5
+    }
+  ]
+
+out_log: |
+  INFO    translator:main          Parse line arguments.
+  INFO    translator:dereference_procedure_name Start dereference_procedure_name.
+  INFO    translator:dereference_procedure_name Work with : SUM ;
+  INFO    translator:dereference_procedure_name Line contain SUM special word.
+  INFO    translator:dereference_procedure_name Add in dictionary_definition_procedures sum definition
+  INFO    translator:dereference_procedure_name Work with LOOP SUM 32 ;
+  INFO    translator:dereference_procedure_name Invoked LOOP Operation.Add  in dereference_code
+  INFO    translator:dereference_procedure_name Work with : DEC_NEED dec ;
+  INFO    translator:dereference_procedure_name Start parsing splitted_line[2:]
+  INFO    translator:dereference_procedure_name DEC_NEED add definition in dictionary.
+  INFO    translator:dereference_procedure_name Work with : WRITE_TO_STACK read_mem_to_stack ;
+  INFO    translator:dereference_procedure_name Start parsing splitted_line[2:]
+  INFO    translator:dereference_procedure_name WRITE_TO_STACK add definition in dictionary.
+  INFO    translator:dereference_procedure_name Work with : ELSE_BODY inc ;
+  INFO    translator:dereference_procedure_name Start parsing splitted_line[2:]
+  INFO    translator:dereference_procedure_name ELSE_BODY add definition in dictionary.
+  INFO    translator:dereference_procedure_name Work with : PRINT print ;
+  INFO    translator:dereference_procedure_name Start parsing splitted_line[2:]
+  INFO    translator:dereference_procedure_name PRINT add definition in dictionary.
+  INFO    translator:dereference_procedure_name Work with IF $*data_register%2==0 WRITE_TO_STACK ELSE ELSE_BODY ;
+  INFO    translator:dereference_procedure_name Invoked IF Operation.Add in dereference_code
+  INFO    translator:dereference_procedure_name Work with : WRITE_TO_STACK_IF_EVEN IF ;
+  INFO    translator:dereference_procedure_name Start parsing splitted_line[2:]
+  INFO    translator:dereference_procedure_name IF was found in dictionary definition.
+  INFO    translator:dereference_procedure_name Work with DEC_NEED ;
+  INFO    translator:dereference_procedure_name Invoked DEC_NEED ; found in dict.Add in dereference_code.
+  INFO    translator:dereference_procedure_name Work with WHILE $data_register<=510 WRITE_TO_STACK_IF_EVEN ;
+  INFO    translator:dereference_procedure_name Invoked WHILE Operation.Add in dereference_code
+  INFO    translator:dereference_procedure_name Work with : SUM_ALL sum_all ;
+  INFO    translator:dereference_procedure_name Start parsing splitted_line[2:]
+  INFO    translator:dereference_procedure_name SUM_ALL add definition in dictionary.
+  INFO    translator:dereference_procedure_name Work with SUM_ALL ;
+  INFO    translator:dereference_procedure_name Invoked SUM_ALL ; found in dict.Add in dereference_code.
+  INFO    translator:dereference_procedure_name Work with PRINT ;
+  INFO    translator:dereference_procedure_name Invoked PRINT ; found in dict.Add in dereference_code.
+  INFO    translator:dereference_procedure_name Work with 
+  INFO    translator:translate_and_write Start translate code in json format
+  INFO    translator:translate_and_write Parsing line - LOOP sum 32 ;
+  INFO    translator:translate_and_write Handle LOOP operation.
+  INFO    translator:translate_and_write Parsing line - DEC_NEED ;
+  INFO    translator:translate_and_write Parsing line - WHILE $data_register<=510 CONDITION:$*data_register%2==0,IF_BODY:read_mem_to_stack,ELSE_BODY:inc ;
+  INFO    translator:translate_and_write Handle WHILE operation.
+  INFO    translator:translate_and_write FOUND CONDITION IN LINE
+  INFO    translator:translate_and_write Parsing line - SUM_ALL ;
+  INFO    translator:translate_and_write Parsing line - PRINT ;
+  INFO    machine:main          Parse command line arguments.
+  INFO    machine:main          Parse input data into list of chars.['1', '2', '\n']
+  INFO    machine:main          Start simulation.
+  INFO    machine:simulation    Memory size - 512.
+  INFO    machine:simulation    Stack size - 64.
+  INFO    machine:simulation    limit for commands - 512.
+  INFO    machine:__init__      Start initializing DataPath object.
+  INFO    machine:__init__      Process input buffer.
+  INFO    machine:__init__      1 is digit.It goes to memory.
+  INFO    machine:__init__      2 is digit.It goes to memory.
+  INFO    machine:__init__      
+   is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      {'procedure_name': 'LOOP', 'basic_operations': ['sum'], 'iterations': '32', 'line_in_dereference_code': 1} command goes to memory.
+  INFO    machine:__init__      {'procedure_name': 'DEC_NEED', 'basic_operations': ['dec'], 'line_in_dereference_code': 2} command goes to memory.
+  INFO    machine:__init__      {'procedure_name': 'WHILE', 'basic_operations': {'CONDITION': '$*data_register%2==0', 'IF_BODY': 'read_mem_to_stack', 'ELSE_BODY': 'inc'}, 'condition': '$data_register<=510', 'line_in_dereference_code': 3} command goes to memory.
+  INFO    machine:__init__      {'procedure_name': 'SUM_ALL', 'basic_operations': ['sum_all'], 'line_in_dereference_code': 4} command goes to memory.
+  INFO    machine:__init__      {'procedure_name': 'PRINT', 'basic_operations': ['print'], 'line_in_dereference_code': 5} command goes to memory.
+  INFO    machine:__init__      Initialize ControlUnit class.
+  INFO    machine:simulation    Start processing commands.
+  INFO    machine:decode_and_execute_instruction Current Procedure : LOOP
+  INFO    machine:decode_and_execute_instruction Operations :    ['sum']
+  INFO    machine:decode_and_execute_instruction Line in code :  1
+  INFO    machine:decode_and_execute_instruction iterations: 32
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 1 from memory. Address 511.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 511
+  INFO    machine:signal_latch_data_register Value of data_register 510
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 2 from memory. Address 510.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 510
+  INFO    machine:signal_latch_data_register Value of data_register 509
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 2.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 1.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 3
+  INFO    machine:signal_write  Write 3 to address 509.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 509
+  INFO    machine:signal_latch_data_register Value of data_register 510
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 2 from memory. Address 510.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 510
+  INFO    machine:signal_latch_data_register Value of data_register 509
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 3 from memory. Address 509.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 509
+  INFO    machine:signal_latch_data_register Value of data_register 508
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 3.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 2.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 5
+  INFO    machine:signal_write  Write 5 to address 508.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 508
+  INFO    machine:signal_latch_data_register Value of data_register 509
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 3 from memory. Address 509.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 509
+  INFO    machine:signal_latch_data_register Value of data_register 508
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 5 from memory. Address 508.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 508
+  INFO    machine:signal_latch_data_register Value of data_register 507
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 5.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 3.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 8
+  INFO    machine:signal_write  Write 8 to address 507.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 507
+  INFO    machine:signal_latch_data_register Value of data_register 508
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 5 from memory. Address 508.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 508
+  INFO    machine:signal_latch_data_register Value of data_register 507
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 8 from memory. Address 507.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 507
+  INFO    machine:signal_latch_data_register Value of data_register 506
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 8.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 5.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 13
+  INFO    machine:signal_write  Write 13 to address 506.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 506
+  INFO    machine:signal_latch_data_register Value of data_register 507
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 8 from memory. Address 507.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 507
+  INFO    machine:signal_latch_data_register Value of data_register 506
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 13 from memory. Address 506.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 506
+  INFO    machine:signal_latch_data_register Value of data_register 505
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 13.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 8.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 21
+  INFO    machine:signal_write  Write 21 to address 505.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 505
+  INFO    machine:signal_latch_data_register Value of data_register 506
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 13 from memory. Address 506.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 506
+  INFO    machine:signal_latch_data_register Value of data_register 505
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 21 from memory. Address 505.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 505
+  INFO    machine:signal_latch_data_register Value of data_register 504
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 21.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 13.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 34
+  INFO    machine:signal_write  Write 34 to address 504.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 504
+  INFO    machine:signal_latch_data_register Value of data_register 505
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 21 from memory. Address 505.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 505
+  INFO    machine:signal_latch_data_register Value of data_register 504
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 34 from memory. Address 504.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 504
+  INFO    machine:signal_latch_data_register Value of data_register 503
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 34.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 21.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 55
+  INFO    machine:signal_write  Write 55 to address 503.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 503
+  INFO    machine:signal_latch_data_register Value of data_register 504
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 34 from memory. Address 504.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 504
+  INFO    machine:signal_latch_data_register Value of data_register 503
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 55 from memory. Address 503.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 503
+  INFO    machine:signal_latch_data_register Value of data_register 502
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 55.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 34.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 89
+  INFO    machine:signal_write  Write 89 to address 502.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 502
+  INFO    machine:signal_latch_data_register Value of data_register 503
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 55 from memory. Address 503.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 503
+  INFO    machine:signal_latch_data_register Value of data_register 502
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 89 from memory. Address 502.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 502
+  INFO    machine:signal_latch_data_register Value of data_register 501
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 89.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 55.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 144
+  INFO    machine:signal_write  Write 144 to address 501.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 501
+  INFO    machine:signal_latch_data_register Value of data_register 502
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 89 from memory. Address 502.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 502
+  INFO    machine:signal_latch_data_register Value of data_register 501
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 144 from memory. Address 501.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 501
+  INFO    machine:signal_latch_data_register Value of data_register 500
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 144.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 89.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 233
+  INFO    machine:signal_write  Write 233 to address 500.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 500
+  INFO    machine:signal_latch_data_register Value of data_register 501
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 144 from memory. Address 501.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 501
+  INFO    machine:signal_latch_data_register Value of data_register 500
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 233 from memory. Address 500.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 500
+  INFO    machine:signal_latch_data_register Value of data_register 499
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 233.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 144.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 377
+  INFO    machine:signal_write  Write 377 to address 499.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 499
+  INFO    machine:signal_latch_data_register Value of data_register 500
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 233 from memory. Address 500.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 500
+  INFO    machine:signal_latch_data_register Value of data_register 499
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 377 from memory. Address 499.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 499
+  INFO    machine:signal_latch_data_register Value of data_register 498
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 377.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 233.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 610
+  INFO    machine:signal_write  Write 610 to address 498.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 498
+  INFO    machine:signal_latch_data_register Value of data_register 499
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 377 from memory. Address 499.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 499
+  INFO    machine:signal_latch_data_register Value of data_register 498
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 610 from memory. Address 498.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 498
+  INFO    machine:signal_latch_data_register Value of data_register 497
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 610.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 377.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 987
+  INFO    machine:signal_write  Write 987 to address 497.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 497
+  INFO    machine:signal_latch_data_register Value of data_register 498
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 610 from memory. Address 498.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 498
+  INFO    machine:signal_latch_data_register Value of data_register 497
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 987 from memory. Address 497.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 497
+  INFO    machine:signal_latch_data_register Value of data_register 496
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 987.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 610.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 1597
+  INFO    machine:signal_write  Write 1597 to address 496.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 496
+  INFO    machine:signal_latch_data_register Value of data_register 497
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 987 from memory. Address 497.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 497
+  INFO    machine:signal_latch_data_register Value of data_register 496
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 1597 from memory. Address 496.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 496
+  INFO    machine:signal_latch_data_register Value of data_register 495
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 1597.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 987.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 2584
+  INFO    machine:signal_write  Write 2584 to address 495.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 495
+  INFO    machine:signal_latch_data_register Value of data_register 496
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 1597 from memory. Address 496.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 496
+  INFO    machine:signal_latch_data_register Value of data_register 495
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 2584 from memory. Address 495.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 495
+  INFO    machine:signal_latch_data_register Value of data_register 494
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 2584.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 1597.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 4181
+  INFO    machine:signal_write  Write 4181 to address 494.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 494
+  INFO    machine:signal_latch_data_register Value of data_register 495
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 2584 from memory. Address 495.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 495
+  INFO    machine:signal_latch_data_register Value of data_register 494
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 4181 from memory. Address 494.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 494
+  INFO    machine:signal_latch_data_register Value of data_register 493
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 4181.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 2584.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 6765
+  INFO    machine:signal_write  Write 6765 to address 493.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 493
+  INFO    machine:signal_latch_data_register Value of data_register 494
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 4181 from memory. Address 494.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 494
+  INFO    machine:signal_latch_data_register Value of data_register 493
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 6765 from memory. Address 493.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 493
+  INFO    machine:signal_latch_data_register Value of data_register 492
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 6765.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 4181.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 10946
+  INFO    machine:signal_write  Write 10946 to address 492.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 492
+  INFO    machine:signal_latch_data_register Value of data_register 493
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 6765 from memory. Address 493.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 493
+  INFO    machine:signal_latch_data_register Value of data_register 492
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 10946 from memory. Address 492.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 492
+  INFO    machine:signal_latch_data_register Value of data_register 491
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 10946.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 6765.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 17711
+  INFO    machine:signal_write  Write 17711 to address 491.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 491
+  INFO    machine:signal_latch_data_register Value of data_register 492
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 10946 from memory. Address 492.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 492
+  INFO    machine:signal_latch_data_register Value of data_register 491
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 17711 from memory. Address 491.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 491
+  INFO    machine:signal_latch_data_register Value of data_register 490
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 17711.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 10946.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 28657
+  INFO    machine:signal_write  Write 28657 to address 490.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 490
+  INFO    machine:signal_latch_data_register Value of data_register 491
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 17711 from memory. Address 491.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 491
+  INFO    machine:signal_latch_data_register Value of data_register 490
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 28657 from memory. Address 490.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 490
+  INFO    machine:signal_latch_data_register Value of data_register 489
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 28657.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 17711.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 46368
+  INFO    machine:signal_write  Write 46368 to address 489.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 489
+  INFO    machine:signal_latch_data_register Value of data_register 490
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 28657 from memory. Address 490.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 490
+  INFO    machine:signal_latch_data_register Value of data_register 489
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 46368 from memory. Address 489.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 489
+  INFO    machine:signal_latch_data_register Value of data_register 488
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 46368.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 28657.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 75025
+  INFO    machine:signal_write  Write 75025 to address 488.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 488
+  INFO    machine:signal_latch_data_register Value of data_register 489
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 46368 from memory. Address 489.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 489
+  INFO    machine:signal_latch_data_register Value of data_register 488
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 75025 from memory. Address 488.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 488
+  INFO    machine:signal_latch_data_register Value of data_register 487
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 75025.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 46368.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 121393
+  INFO    machine:signal_write  Write 121393 to address 487.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 487
+  INFO    machine:signal_latch_data_register Value of data_register 488
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 75025 from memory. Address 488.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 488
+  INFO    machine:signal_latch_data_register Value of data_register 487
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 121393 from memory. Address 487.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 487
+  INFO    machine:signal_latch_data_register Value of data_register 486
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 121393.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 75025.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 196418
+  INFO    machine:signal_write  Write 196418 to address 486.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 486
+  INFO    machine:signal_latch_data_register Value of data_register 487
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 121393 from memory. Address 487.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 487
+  INFO    machine:signal_latch_data_register Value of data_register 486
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 196418 from memory. Address 486.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 486
+  INFO    machine:signal_latch_data_register Value of data_register 485
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 196418.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 121393.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 317811
+  INFO    machine:signal_write  Write 317811 to address 485.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 485
+  INFO    machine:signal_latch_data_register Value of data_register 486
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 196418 from memory. Address 486.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 486
+  INFO    machine:signal_latch_data_register Value of data_register 485
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 317811 from memory. Address 485.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 485
+  INFO    machine:signal_latch_data_register Value of data_register 484
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 317811.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 196418.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 514229
+  INFO    machine:signal_write  Write 514229 to address 484.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 484
+  INFO    machine:signal_latch_data_register Value of data_register 485
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 317811 from memory. Address 485.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 485
+  INFO    machine:signal_latch_data_register Value of data_register 484
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 514229 from memory. Address 484.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 484
+  INFO    machine:signal_latch_data_register Value of data_register 483
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 514229.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 317811.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 832040
+  INFO    machine:signal_write  Write 832040 to address 483.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 483
+  INFO    machine:signal_latch_data_register Value of data_register 484
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 514229 from memory. Address 484.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 484
+  INFO    machine:signal_latch_data_register Value of data_register 483
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 832040 from memory. Address 483.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 483
+  INFO    machine:signal_latch_data_register Value of data_register 482
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 832040.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 514229.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 1346269
+  INFO    machine:signal_write  Write 1346269 to address 482.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 482
+  INFO    machine:signal_latch_data_register Value of data_register 483
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 832040 from memory. Address 483.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 483
+  INFO    machine:signal_latch_data_register Value of data_register 482
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 1346269 from memory. Address 482.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 482
+  INFO    machine:signal_latch_data_register Value of data_register 481
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 1346269.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 832040.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 2178309
+  INFO    machine:signal_write  Write 2178309 to address 481.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 481
+  INFO    machine:signal_latch_data_register Value of data_register 482
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 1346269 from memory. Address 482.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 482
+  INFO    machine:signal_latch_data_register Value of data_register 481
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 2178309 from memory. Address 481.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 481
+  INFO    machine:signal_latch_data_register Value of data_register 480
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 2178309.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 1346269.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 3524578
+  INFO    machine:signal_write  Write 3524578 to address 480.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 480
+  INFO    machine:signal_latch_data_register Value of data_register 481
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 2178309 from memory. Address 481.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 481
+  INFO    machine:signal_latch_data_register Value of data_register 480
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 3524578 from memory. Address 480.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 480
+  INFO    machine:signal_latch_data_register Value of data_register 479
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 3524578.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 2178309.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 5702887
+  INFO    machine:signal_write  Write 5702887 to address 479.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 479
+  INFO    machine:signal_latch_data_register Value of data_register 480
+  INFO    machine:sum_handler   sum_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 3524578 from memory. Address 480.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 480
+  INFO    machine:signal_latch_data_register Value of data_register 479
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 5702887 from memory. Address 479.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 479
+  INFO    machine:signal_latch_data_register Value of data_register 478
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 1
+  INFO    machine:signal_latch_pop Element from stack 5702887.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 3524578.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_mem_from_argument.With data 9227465
+  INFO    machine:signal_write  Write 9227465 to address 478.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 478
+  INFO    machine:signal_latch_data_register Value of data_register 479
+  INFO    machine:decode_and_execute_instruction Current Procedure : DEC_NEED
+  INFO    machine:decode_and_execute_instruction Operations :    ['dec']
+  INFO    machine:decode_and_execute_instruction Line in code :  2
+  INFO    machine:decode_and_execute_instruction Invoke dec
+  INFO    machine:dec_handler   dec_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 479
+  INFO    machine:signal_latch_data_register Value of data_register 478
+  INFO    machine:decode_and_execute_instruction Current Procedure : WHILE
+  INFO    machine:decode_and_execute_instruction Operations :    {'CONDITION': '$*data_register%2==0', 'IF_BODY': 'read_mem_to_stack', 'ELSE_BODY': 'inc'}
+  INFO    machine:decode_and_execute_instruction Line in code :  3
+  INFO    machine:decode_and_execute_instruction Condition for WHILE $data_register<=510
+  INFO    machine:decode_and_execute_instruction Detected $data_register in condition.Replace with data_register value.
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 9227465%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 478
+  INFO    machine:signal_latch_data_register Value of data_register 479
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 5702887%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 479
+  INFO    machine:signal_latch_data_register Value of data_register 480
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 3524578%2==0 is TRUE.Invoke read_mem_to_stack
+  INFO    machine:read_mem_to_stack_handler read_mem_to_stack_handler started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 3524578 from memory. Address 480.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 480
+  INFO    machine:signal_latch_data_register Value of data_register 481
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 2178309%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 481
+  INFO    machine:signal_latch_data_register Value of data_register 482
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 1346269%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 482
+  INFO    machine:signal_latch_data_register Value of data_register 483
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 832040%2==0 is TRUE.Invoke read_mem_to_stack
+  INFO    machine:read_mem_to_stack_handler read_mem_to_stack_handler started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 1
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 832040 from memory. Address 483.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 483
+  INFO    machine:signal_latch_data_register Value of data_register 484
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 514229%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 484
+  INFO    machine:signal_latch_data_register Value of data_register 485
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 317811%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 485
+  INFO    machine:signal_latch_data_register Value of data_register 486
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 196418%2==0 is TRUE.Invoke read_mem_to_stack
+  INFO    machine:read_mem_to_stack_handler read_mem_to_stack_handler started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 2
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 196418 from memory. Address 486.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 486
+  INFO    machine:signal_latch_data_register Value of data_register 487
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 121393%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 487
+  INFO    machine:signal_latch_data_register Value of data_register 488
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 75025%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 488
+  INFO    machine:signal_latch_data_register Value of data_register 489
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 46368%2==0 is TRUE.Invoke read_mem_to_stack
+  INFO    machine:read_mem_to_stack_handler read_mem_to_stack_handler started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 3
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 46368 from memory. Address 489.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 489
+  INFO    machine:signal_latch_data_register Value of data_register 490
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 28657%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 490
+  INFO    machine:signal_latch_data_register Value of data_register 491
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 17711%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 491
+  INFO    machine:signal_latch_data_register Value of data_register 492
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 10946%2==0 is TRUE.Invoke read_mem_to_stack
+  INFO    machine:read_mem_to_stack_handler read_mem_to_stack_handler started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 4
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 10946 from memory. Address 492.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 492
+  INFO    machine:signal_latch_data_register Value of data_register 493
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 6765%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 493
+  INFO    machine:signal_latch_data_register Value of data_register 494
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 4181%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 494
+  INFO    machine:signal_latch_data_register Value of data_register 495
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 2584%2==0 is TRUE.Invoke read_mem_to_stack
+  INFO    machine:read_mem_to_stack_handler read_mem_to_stack_handler started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 5
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 2584 from memory. Address 495.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 495
+  INFO    machine:signal_latch_data_register Value of data_register 496
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 1597%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 496
+  INFO    machine:signal_latch_data_register Value of data_register 497
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 987%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 497
+  INFO    machine:signal_latch_data_register Value of data_register 498
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 610%2==0 is TRUE.Invoke read_mem_to_stack
+  INFO    machine:read_mem_to_stack_handler read_mem_to_stack_handler started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 6
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 610 from memory. Address 498.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 498
+  INFO    machine:signal_latch_data_register Value of data_register 499
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 377%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 499
+  INFO    machine:signal_latch_data_register Value of data_register 500
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 233%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 500
+  INFO    machine:signal_latch_data_register Value of data_register 501
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 144%2==0 is TRUE.Invoke read_mem_to_stack
+  INFO    machine:read_mem_to_stack_handler read_mem_to_stack_handler started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 7
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 144 from memory. Address 501.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 501
+  INFO    machine:signal_latch_data_register Value of data_register 502
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 89%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 502
+  INFO    machine:signal_latch_data_register Value of data_register 503
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 55%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 503
+  INFO    machine:signal_latch_data_register Value of data_register 504
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 34%2==0 is TRUE.Invoke read_mem_to_stack
+  INFO    machine:read_mem_to_stack_handler read_mem_to_stack_handler started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 8
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 34 from memory. Address 504.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 504
+  INFO    machine:signal_latch_data_register Value of data_register 505
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 21%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 505
+  INFO    machine:signal_latch_data_register Value of data_register 506
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 13%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 506
+  INFO    machine:signal_latch_data_register Value of data_register 507
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 8%2==0 is TRUE.Invoke read_mem_to_stack
+  INFO    machine:read_mem_to_stack_handler read_mem_to_stack_handler started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 9
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 8 from memory. Address 507.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 507
+  INFO    machine:signal_latch_data_register Value of data_register 508
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 5%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 508
+  INFO    machine:signal_latch_data_register Value of data_register 509
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 3%2==0 is False.Invoke inc
+  INFO    machine:inc_handler   inc_handler started.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 509
+  INFO    machine:signal_latch_data_register Value of data_register 510
+  INFO    machine:decode_and_execute_instruction FOUND IF ELSE OPERATIONS.
+  INFO    machine:decode_and_execute_instruction if_condition:$*data_register%2==0
+  INFO    machine:decode_and_execute_instruction if_body:read_mem_to_stack
+  INFO    machine:decode_and_execute_instruction else_body:inc
+  INFO    machine:decode_and_execute_instruction Detected $data_register in if_condition.Replace with value from memory addressed via data_register.
+  INFO    machine:decode_and_execute_instruction 2%2==0 is TRUE.Invoke read_mem_to_stack
+  INFO    machine:read_mem_to_stack_handler read_mem_to_stack_handler started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_mem_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 10
+  INFO    machine:signal_latch_push_data Read data from memory to stack.
+  INFO    machine:signal_latch_push_data Value 2 from memory. Address 510.
+  INFO    machine:signal_latch_data_register signal_latch_data_register
+  INFO    machine:signal_latch_data_register Value of data_register 510
+  INFO    machine:signal_latch_data_register Value of data_register 511
+  INFO    machine:decode_and_execute_instruction Current Procedure : SUM_ALL
+  INFO    machine:decode_and_execute_instruction Operations :    ['sum_all']
+  INFO    machine:decode_and_execute_instruction Line in code :  4
+  INFO    machine:decode_and_execute_instruction Invoke sum_all
+  INFO    machine:sum_all_handler sum_all_handler started.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    ALU:sum           ALU SUM OPERATION started.
+  INFO    machine:decode_and_execute_instruction Current Procedure : PRINT
+  INFO    machine:decode_and_execute_instruction Operations :    ['print']
+  INFO    machine:decode_and_execute_instruction Line in code :  5
+  INFO    machine:decode_and_execute_instruction Invoke print
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 4613732.
+  INFO    machine:print_handler Append 4613732 in output_buffer
+  INFO    machine:simulation    Nothing to do.Current command is null.Exit.
+  INFO    machine:main          output:[4613732]
+  INFO    machine:main          Instructions:362
+  INFO    machine:main          ticks:1035
+out_stdout: |
+  ============================================================
+  output:[4613732]
+  Instructions:362
+  ticks:1035
+out_code: !!binary |
+  Ww0KICAgIHsNCiAgICAgICAgInByb2NlZHVyZV9uYW1lIjogIkxPT1AiLA0KICAgICAgICAiYmFz
+  aWNfb3BlcmF0aW9ucyI6IFsNCiAgICAgICAgICAgICJzdW0iDQogICAgICAgIF0sDQogICAgICAg
+  ICJpdGVyYXRpb25zIjogIjMyIiwNCiAgICAgICAgImxpbmVfaW5fZGVyZWZlcmVuY2VfY29kZSI6
+  IDENCiAgICB9LA0KICAgIHsNCiAgICAgICAgInByb2NlZHVyZV9uYW1lIjogIkRFQ19ORUVEIiwN
+  CiAgICAgICAgImJhc2ljX29wZXJhdGlvbnMiOiBbDQogICAgICAgICAgICAiZGVjIg0KICAgICAg
+  ICBdLA0KICAgICAgICAibGluZV9pbl9kZXJlZmVyZW5jZV9jb2RlIjogMg0KICAgIH0sDQogICAg
+  ew0KICAgICAgICAicHJvY2VkdXJlX25hbWUiOiAiV0hJTEUiLA0KICAgICAgICAiYmFzaWNfb3Bl
+  cmF0aW9ucyI6IHsNCiAgICAgICAgICAgICJDT05ESVRJT04iOiAiJCpkYXRhX3JlZ2lzdGVyJTI9
+  PTAiLA0KICAgICAgICAgICAgIklGX0JPRFkiOiAicmVhZF9tZW1fdG9fc3RhY2siLA0KICAgICAg
+  ICAgICAgIkVMU0VfQk9EWSI6ICJpbmMiDQogICAgICAgIH0sDQogICAgICAgICJjb25kaXRpb24i
+  OiAiJGRhdGFfcmVnaXN0ZXI8PTUxMCIsDQogICAgICAgICJsaW5lX2luX2RlcmVmZXJlbmNlX2Nv
+  ZGUiOiAzDQogICAgfSwNCiAgICB7DQogICAgICAgICJwcm9jZWR1cmVfbmFtZSI6ICJTVU1fQUxM
+  IiwNCiAgICAgICAgImJhc2ljX29wZXJhdGlvbnMiOiBbDQogICAgICAgICAgICAic3VtX2FsbCIN
+  CiAgICAgICAgXSwNCiAgICAgICAgImxpbmVfaW5fZGVyZWZlcmVuY2VfY29kZSI6IDQNCiAgICB9
+  LA0KICAgIHsNCiAgICAgICAgInByb2NlZHVyZV9uYW1lIjogIlBSSU5UIiwNCiAgICAgICAgImJh
+  c2ljX29wZXJhdGlvbnMiOiBbDQogICAgICAgICAgICAicHJpbnQiDQogICAgICAgIF0sDQogICAg
+  ICAgICJsaW5lX2luX2RlcmVmZXJlbmNlX2NvZGUiOiA1DQogICAgfQ0KXQ==

@@ -29,8 +29,8 @@ class Parser:
         self.parser.add_argument("-input",
                                  dest="input",
                                  help="Example: -input './Forth_file'-this file is consisted of Forth code",
-                                 type=file_checker,
-                                 required=True)
+                                 type=file_checker
+                                 )
         self.parser.add_argument("-output",
                                  dest="output",
                                  help="Example: -output './machine_code'-this file is consisted of machine code after translation.",
@@ -66,8 +66,8 @@ def dereference_procedure_name(code: List[str], input_file_name):
         is_contain_procedure = False
         line_number += 1
         splitted_line = line.strip().split(" ")
-        assert splitted_line[-1] == ';', \
-            f"\nERROR:ends with '{splitted_line[-1]}'.\nProcedure definition must end with ';'.\nLine {line_number} in file {input_file_name}\n{line}"
+        if splitted_line[-1] != ';':
+            continue
 
         if splitted_line[0] == ":":
 
@@ -233,17 +233,18 @@ def translate_and_write(dereference_code: List[str], output_file_name: str, inpu
         json.dump(json_list, outfile, indent=4)
 
 
-def main():
-    obj = Parser()
-    command_line_arguments = obj.parser.parse_args()
+def main(source="", target=""):
+    #obj = Parser()
+    #command_line_arguments = obj.parser.parse_args()
+    #source = command_line_arguments.input
+    #target = command_line_arguments.output
     root.info("Parse line arguments.")
-    with open(command_line_arguments.input, encoding="utf-8") as f:
-        source = f.read()
-    root.info(f"File with source code-{command_line_arguments.input}.")
+    with open(source, encoding="utf-8") as f:
+        s = f.read()
 
-    code = dereference_procedure_name(source.split("\n"), command_line_arguments.input)
+    code = dereference_procedure_name(s.split("\n"), source)
 
-    translate_and_write(code, command_line_arguments.output, command_line_arguments.input)
+    translate_and_write(code, target, source)
 
 
 main() if __name__ == "__main__" else ''

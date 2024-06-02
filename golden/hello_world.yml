@@ -1,0 +1,312 @@
+in_source: |
+  : NAME write_mem_from_IO ;
+  : PRINT NAME read_io_to_stack print ;
+  LOOP PRINT 11 ;
+  : END halt ;
+  END ;
+  PRINT ;
+  PRINT ;
+  PRINT ;
+in_stdin: |
+  HELLO WORLD
+
+out_formatted_code: |
+  [
+     {
+         "procedure_name": "LOOP",
+         "basic_operations": [
+             "write_mem_from_IO",
+             "read_io_to_stack",
+             "print"
+         ],
+         "iterations": "11",
+         "line_in_dereference_code": 1
+     },
+     {
+         "procedure_name": "END",
+         "basic_operations": [
+             "halt"
+         ],
+         "line_in_dereference_code": 2
+     },
+     {
+         "procedure_name": "PRINT",
+         "basic_operations": [
+             "write_mem_from_IO",
+             "read_io_to_stack",
+             "print"
+         ],
+         "line_in_dereference_code": 3
+     },
+     {
+         "procedure_name": "PRINT",
+         "basic_operations": [
+             "write_mem_from_IO",
+             "read_io_to_stack",
+             "print"
+         ],
+         "line_in_dereference_code": 4
+     },
+     {
+         "procedure_name": "PRINT",
+         "basic_operations": [
+             "write_mem_from_IO",
+             "read_io_to_stack",
+             "print"
+         ],
+         "line_in_dereference_code": 5
+     }
+  ]
+
+out_log: |
+  INFO    translator:main          Parse line arguments.
+  INFO    translator:dereference_procedure_name Start dereference_procedure_name.
+  INFO    translator:dereference_procedure_name Work with : NAME write_mem_from_IO ;
+  INFO    translator:dereference_procedure_name Start parsing splitted_line[2:]
+  INFO    translator:dereference_procedure_name NAME add definition in dictionary.
+  INFO    translator:dereference_procedure_name Work with : PRINT NAME read_io_to_stack print ;
+  INFO    translator:dereference_procedure_name Start parsing splitted_line[2:]
+  INFO    translator:dereference_procedure_name NAME was found in dictionary definition.
+  INFO    translator:dereference_procedure_name Work with LOOP PRINT 11 ;
+  INFO    translator:dereference_procedure_name Invoked LOOP Operation.Add  in dereference_code
+  INFO    translator:dereference_procedure_name Work with : END halt ;
+  INFO    translator:dereference_procedure_name Start parsing splitted_line[2:]
+  INFO    translator:dereference_procedure_name END add definition in dictionary.
+  INFO    translator:dereference_procedure_name Work with END ;
+  INFO    translator:dereference_procedure_name Invoked END ; found in dict.Add in dereference_code.
+  INFO    translator:dereference_procedure_name Work with PRINT ;
+  INFO    translator:dereference_procedure_name Invoked PRINT ; found in dict.Add in dereference_code.
+  INFO    translator:dereference_procedure_name Work with PRINT ;
+  INFO    translator:dereference_procedure_name Invoked PRINT ; found in dict.Add in dereference_code.
+  INFO    translator:dereference_procedure_name Work with PRINT ;
+  INFO    translator:dereference_procedure_name Invoked PRINT ; found in dict.Add in dereference_code.
+  INFO    translator:dereference_procedure_name Work with 
+  INFO    translator:translate_and_write Start translate code in json format
+  INFO    translator:translate_and_write Parsing line - LOOP write_mem_from_IO read_io_to_stack print 11 ;
+  INFO    translator:translate_and_write Handle LOOP operation.
+  INFO    translator:translate_and_write Parsing line - END ;
+  INFO    translator:translate_and_write Parsing line - PRINT ;
+  INFO    translator:translate_and_write Parsing line - PRINT ;
+  INFO    translator:translate_and_write Parsing line - PRINT ;
+  INFO    machine:main          Parse command line arguments.
+  INFO    machine:main          Parse input data into list of chars.['H', 'E', 'L', 'L', 'O', ' ', 'W', 'O', 'R', 'L', 'D', '\n']
+  INFO    machine:main          Start simulation.
+  INFO    machine:simulation    Memory size - 512.
+  INFO    machine:simulation    Stack size - 64.
+  INFO    machine:simulation    limit for commands - 512.
+  INFO    machine:__init__      Start initializing DataPath object.
+  INFO    machine:__init__      Process input buffer.
+  INFO    machine:__init__      H is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      E is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      L is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      L is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      O is not a digit.It goes to input_buffer.
+  INFO    machine:__init__        is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      W is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      O is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      R is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      L is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      D is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      
+   is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      {'procedure_name': 'LOOP', 'basic_operations': ['write_mem_from_IO', 'read_io_to_stack', 'print'], 'iterations': '11', 'line_in_dereference_code': 1} command goes to memory.
+  INFO    machine:__init__      {'procedure_name': 'END', 'basic_operations': ['halt'], 'line_in_dereference_code': 2} command goes to memory.
+  INFO    machine:__init__      {'procedure_name': 'PRINT', 'basic_operations': ['write_mem_from_IO', 'read_io_to_stack', 'print'], 'line_in_dereference_code': 3} command goes to memory.
+  INFO    machine:__init__      {'procedure_name': 'PRINT', 'basic_operations': ['write_mem_from_IO', 'read_io_to_stack', 'print'], 'line_in_dereference_code': 4} command goes to memory.
+  INFO    machine:__init__      {'procedure_name': 'PRINT', 'basic_operations': ['write_mem_from_IO', 'read_io_to_stack', 'print'], 'line_in_dereference_code': 5} command goes to memory.
+  INFO    machine:__init__      Initialize ControlUnit class.
+  INFO    machine:simulation    Start processing commands.
+  INFO    machine:decode_and_execute_instruction Current Procedure : LOOP
+  INFO    machine:decode_and_execute_instruction Operations :    ['write_mem_from_IO', 'read_io_to_stack', 'print']
+  INFO    machine:decode_and_execute_instruction Line in code :  1
+  INFO    machine:decode_and_execute_instruction iterations: 11
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY H in port
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port H.
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack H.
+  INFO    machine:print_handler Append H in output_buffer
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY E in port
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port E.
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack E.
+  INFO    machine:print_handler Append E in output_buffer
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY L in port
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port L.
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack L.
+  INFO    machine:print_handler Append L in output_buffer
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY L in port
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port L.
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack L.
+  INFO    machine:print_handler Append L in output_buffer
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY O in port
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port O.
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack O.
+  INFO    machine:print_handler Append O in output_buffer
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY   in port
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port  .
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack  .
+  INFO    machine:print_handler Append   in output_buffer
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY W in port
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port W.
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack W.
+  INFO    machine:print_handler Append W in output_buffer
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY O in port
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port O.
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack O.
+  INFO    machine:print_handler Append O in output_buffer
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY R in port
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port R.
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack R.
+  INFO    machine:print_handler Append R in output_buffer
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY L in port
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port L.
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack L.
+  INFO    machine:print_handler Append L in output_buffer
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY D in port
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port D.
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack D.
+  INFO    machine:print_handler Append D in output_buffer
+  INFO    machine:decode_and_execute_instruction Current Procedure : END
+  INFO    machine:decode_and_execute_instruction Operations :    ['halt']
+  INFO    machine:decode_and_execute_instruction Line in code :  2
+  INFO    machine:decode_and_execute_instruction Invoke halt
+  INFO    machine:stop          Halt operation started.
+  INFO    machine:simulation    HALT invoked.Exit
+  INFO    machine:main          output:['H', 'E', 'L', 'L', 'O', ' ', 'W', 'O', 'R', 'L', 'D']
+  INFO    machine:main          Instructions:575
+  INFO    machine:main          ticks:1615
+
+
+out_stdout: |
+  ============================================================
+  output:['H', 'E', 'L', 'L', 'O', ' ', 'W', 'O', 'R', 'L', 'D']
+  Instructions:575
+  ticks:1615
+out_code: !!binary |
+  Ww0KICAgIHsNCiAgICAgICAgInByb2NlZHVyZV9uYW1lIjogIkxPT1AiLA0KICAgICAgICAiYmFz
+  aWNfb3BlcmF0aW9ucyI6IFsNCiAgICAgICAgICAgICJ3cml0ZV9tZW1fZnJvbV9JTyIsDQogICAg
+  ICAgICAgICAicmVhZF9pb190b19zdGFjayIsDQogICAgICAgICAgICAicHJpbnQiDQogICAgICAg
+  IF0sDQogICAgICAgICJpdGVyYXRpb25zIjogIjExIiwNCiAgICAgICAgImxpbmVfaW5fZGVyZWZl
+  cmVuY2VfY29kZSI6IDENCiAgICB9LA0KICAgIHsNCiAgICAgICAgInByb2NlZHVyZV9uYW1lIjog
+  IkVORCIsDQogICAgICAgICJiYXNpY19vcGVyYXRpb25zIjogWw0KICAgICAgICAgICAgImhhbHQi
+  DQogICAgICAgIF0sDQogICAgICAgICJsaW5lX2luX2RlcmVmZXJlbmNlX2NvZGUiOiAyDQogICAg
+  fSwNCiAgICB7DQogICAgICAgICJwcm9jZWR1cmVfbmFtZSI6ICJQUklOVCIsDQogICAgICAgICJi
+  YXNpY19vcGVyYXRpb25zIjogWw0KICAgICAgICAgICAgIndyaXRlX21lbV9mcm9tX0lPIiwNCiAg
+  ICAgICAgICAgICJyZWFkX2lvX3RvX3N0YWNrIiwNCiAgICAgICAgICAgICJwcmludCINCiAgICAg
+  ICAgXSwNCiAgICAgICAgImxpbmVfaW5fZGVyZWZlcmVuY2VfY29kZSI6IDMNCiAgICB9LA0KICAg
+  IHsNCiAgICAgICAgInByb2NlZHVyZV9uYW1lIjogIlBSSU5UIiwNCiAgICAgICAgImJhc2ljX29w
+  ZXJhdGlvbnMiOiBbDQogICAgICAgICAgICAid3JpdGVfbWVtX2Zyb21fSU8iLA0KICAgICAgICAg
+  ICAgInJlYWRfaW9fdG9fc3RhY2siLA0KICAgICAgICAgICAgInByaW50Ig0KICAgICAgICBdLA0K
+  ICAgICAgICAibGluZV9pbl9kZXJlZmVyZW5jZV9jb2RlIjogNA0KICAgIH0sDQogICAgew0KICAg
+  ICAgICAicHJvY2VkdXJlX25hbWUiOiAiUFJJTlQiLA0KICAgICAgICAiYmFzaWNfb3BlcmF0aW9u
+  cyI6IFsNCiAgICAgICAgICAgICJ3cml0ZV9tZW1fZnJvbV9JTyIsDQogICAgICAgICAgICAicmVh
+  ZF9pb190b19zdGFjayIsDQogICAgICAgICAgICAicHJpbnQiDQogICAgICAgIF0sDQogICAgICAg
+  ICJsaW5lX2luX2RlcmVmZXJlbmNlX2NvZGUiOiA1DQogICAgfQ0KXQ==

@@ -1,5 +1,0 @@
-: WRITE "What_is_your_name?" ;
-: PRINT read_mem_to_stack print ;
-LOOP PRINT 15 ;
-: PRINT_NAME write_mem_from_IO read_io_to_stack print ;
-WHILE 1 PRINT_NAME ;

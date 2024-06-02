@@ -16,6 +16,7 @@ root.addHandler(handler)
 instruction_counter = 0
 ticks = 0
 
+
 class Signals(str, Enum):
     INC = "inc"
     DEC = "dec"
@@ -80,8 +81,8 @@ class DataPath:
 
     def restore_memory_register(self):
 
-        global instruction_counter,ticks
-        ticks+=1
+        global instruction_counter, ticks
+        ticks += 1
         instruction_counter += 1
         root.info(f"Restore memory register to {self.memory_size - 1}")
         self.data_register = self.memory_size - 1
@@ -90,8 +91,8 @@ class DataPath:
         return f"Memory size:{self.memory_size}\nIo_port_read:{self.io_port_write}\nIo port write:{self.io_port_write}\nData register:{self.data_register}\nMemory:{[el for el in self.memory if el != '']}\nCommand register:{self.command_register}\nStack size:{self.stack_size}\nInput buffer:{self.input_buffer}\nOutput buffer:{self.output_buffer}"
 
     def signal_latch_data_register(self, sel):
-        global instruction_counter,ticks
-        ticks+=3
+        global instruction_counter, ticks
+        ticks += 3
         instruction_counter += 1
         root.info("signal_latch_data_register")
         root.info(f"Value of data_register {self.data_register}")
@@ -103,8 +104,8 @@ class DataPath:
         assert self._memory_delimiter <= self.data_register < self.memory_size, f"out of memory: \nMemory  size:{self.memory_size}\nMemory delimeter:{self._memory_delimiter}\nData register:{self.data_register}"
 
     def signal_latch_command_register(self, sel):
-        global instruction_counter,ticks
-        ticks+=3
+        global instruction_counter, ticks
+        ticks += 3
         instruction_counter += 1
         assert sel in {Signals.INC.value, Signals.DEC.value}, "internal error, incorrect selector: {}".format(sel)
 
@@ -115,8 +116,8 @@ class DataPath:
 
     # read_data
     def signal_latch_push_data(self, sel):
-        global instruction_counter,ticks
-        ticks+=3
+        global instruction_counter, ticks
+        ticks += 3
         instruction_counter += 1
         root.info(f"signal_latch_push_data started with selector {sel}")
         self.stack_top_register += 1
@@ -143,8 +144,8 @@ class DataPath:
         self.stack_top_register = len(self.stack) - 1
 
     def signal_latch_pop(self) -> int:
-        global instruction_counter,ticks
-        ticks+=2
+        global instruction_counter, ticks
+        ticks += 2
         instruction_counter += 1
         root.info("signal_latch_pop started")
         root.info(f"Value of stack_top_register {self.stack_top_register}")
@@ -155,9 +156,9 @@ class DataPath:
         self.stack_top_register -= 1
         return element
 
-    def signal_write(self, sel, data=""):
-        global instruction_counter,ticks
-        ticks+=4
+    def signal_write(self, sel, data="")->bool:
+        global instruction_counter, ticks
+        ticks += 4
         instruction_counter += 1
         root.info(f"signal_write operation started.With selector {sel}.With data {data}")
         assert 0 <= self.data_register < self.memory_size, "out of memory: {}".format(
@@ -170,24 +171,25 @@ class DataPath:
         if sel == Signals.write_data_to_mem_from_argument:
             root.info(f"Write {data} to address {self.data_register}.")
             self.memory[self.data_register] = data
+            return False
         if sel == Signals.write_data_to_mem_from_stack:
             result = self.signal_latch_pop
             root.info(f"Write {result} from stack to memory.")
             self.memory.append(result)
+            return False
 
         if sel == Signals.write_data_to_IO_port_from_buffer:
             root.info("Try write data from inner buffer to IO port.")
             if len(self.input_buffer) <= 0:
                 root.info("Input buffer is empty")
-                root.info(f"output:{self.output_buffer}")
-                sys.exit(0)
+                return True
             symbol = self.input_buffer.pop(0)
             if symbol == "0":
                 root.info("END OF LINE DETECTED.")
-                return
+                return False
             root.info(f"COPY {symbol} in port")
             self.memory[self.io_port_write] = symbol
-
+            return False
 
 class ControlUnit:
 
@@ -216,7 +218,7 @@ class ControlUnit:
 
     def write_mem_from_IO_handler(self):
         root.info("write_mem_from_IO_handler Started.")
-        self.data_path.signal_write(Signals.write_data_to_IO_port_from_buffer)
+        self.stop_machine=self.data_path.signal_write(Signals.write_data_to_IO_port_from_buffer)
 
     def print_handler(self):
         root.info("print_handler started.")
@@ -256,7 +258,7 @@ class ControlUnit:
 
         result = ALU.ALU.sum(first_arg, second_arg)
 
-        self.data_path.signal_write(Signals.write_data_to_mem_from_argument, data=result)
+        self.stop_machine=self.data_path.signal_write(Signals.write_data_to_mem_from_argument, data=result)
         self.data_path.signal_latch_data_register(Signals.INC)
 
     def read_mem_to_stack_handler(self):
@@ -268,7 +270,7 @@ class ControlUnit:
         root.info("write_string_into_memory_handler started")
         instr = self.data_path.memory[self.data_path.command_register]
         symbol_code = instr["argument"]
-        self.data_path.signal_write(Signals.write_data_to_mem_from_argument, data=symbol_code)
+        self.stop_machine=self.data_path.signal_write(Signals.write_data_to_mem_from_argument, data=symbol_code)
         self.data_path.signal_latch_data_register(Signals.DEC)
 
     def stop(self):
@@ -314,6 +316,8 @@ class ControlUnit:
                                               f"{self.data_path.memory[self.data_path.data_register]}")
 
             while eval(condition):
+                if self.stop_machine:
+                    break
                 if isinstance(instr["basic_operations"], dict):
                     root.info("FOUND IF ELSE OPERATIONS.")
                     if_condition = instr["basic_operations"]["CONDITION"]
@@ -402,16 +406,20 @@ class Parser:
                                  )
 
 
-def main():
-    obj = Parser()
-    command_line_arguments = obj.parser.parse_args()
+def main(input_code="", input_data=""):
+    #obj = Parser()
+    #command_line_arguments = obj.parser.parse_args()
     root.info("Parse command line arguments.")
-    root.info(f"Input machine code in File - {command_line_arguments.input_code}")
-    root.info(f"Input data in File - {command_line_arguments.input_data}")
+    #root.info(f"Input machine code in File - {command_line_arguments.input_code}")
+    #root.info(f"Input data in File - {command_line_arguments.input_data}")
+    #if input_code == "" and input_data == "":
+        #input_code = command_line_arguments.input_code
+        #input_data = command_line_arguments.input_data
 
-    code = Op.read_code(command_line_arguments.input_code)
+    code = Op.read_code(input_code)
     input_buffer = []
-    with open(command_line_arguments.input_data, encoding="utf-8") as file:
+
+    with open(input_data, encoding="utf-8") as file:
         input_text = file.read()
         for char in input_text:
             input_buffer.append(char)
@@ -427,7 +435,9 @@ def main():
     root.info(f"output:{output}")
     root.info(f"Instructions:{instruction_counter}")
     root.info(f"ticks:{ticks}")
-
+    print(f"output:{output}")
+    print(f"Instructions:{instruction_counter}")
+    print(f"ticks:{ticks}")
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,374 @@
+in_source: |
+  : PRINT write_mem_from_IO read_io_to_stack print ;
+  WHILE 1 PRINT ;
+in_stdin: |
+  HELP_ME_PLEASE
+
+out_formatted_code: |
+  [
+    {
+        "procedure_name": "WHILE",
+        "basic_operations": [
+            "write_mem_from_IO",
+            "read_io_to_stack",
+            "print"
+        ],
+        "condition": "1",
+        "line_in_dereference_code": 1
+    }
+  ]
+
+out_log: |
+  INFO    translator:main          Parse line arguments.
+  INFO    translator:dereference_procedure_name Start dereference_procedure_name.
+  INFO    translator:dereference_procedure_name Work with : PRINT write_mem_from_IO read_io_to_stack print ;
+  INFO    translator:dereference_procedure_name Start parsing splitted_line[2:]
+  INFO    translator:dereference_procedure_name PRINT add definition in dictionary.
+  INFO    translator:dereference_procedure_name Work with WHILE 1 PRINT ;
+  INFO    translator:dereference_procedure_name Invoked WHILE Operation.Add in dereference_code
+  INFO    translator:dereference_procedure_name Work with 
+  INFO    translator:translate_and_write Start translate code in json format
+  INFO    translator:translate_and_write Parsing line - WHILE 1 write_mem_from_IO read_io_to_stack print ;
+  INFO    translator:translate_and_write Handle WHILE operation.
+  INFO    machine:main          Parse command line arguments.
+  INFO    machine:main          Parse input data into list of chars.['H', 'E', 'L', 'P', '_', 'M', 'E', '_', 'P', 'L', 'E', 'A', 'S', 'E', '\n']
+  INFO    machine:main          Start simulation.
+  INFO    machine:simulation    Memory size - 512.
+  INFO    machine:simulation    Stack size - 64.
+  INFO    machine:simulation    limit for commands - 512.
+  INFO    machine:__init__      Start initializing DataPath object.
+  INFO    machine:__init__      Process input buffer.
+  INFO    machine:__init__      H is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      E is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      L is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      P is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      _ is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      M is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      E is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      _ is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      P is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      L is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      E is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      A is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      S is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      E is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      
+   is not a digit.It goes to input_buffer.
+  INFO    machine:__init__      {'procedure_name': 'WHILE', 'basic_operations': ['write_mem_from_IO', 'read_io_to_stack', 'print'], 'condition': '1', 'line_in_dereference_code': 1} command goes to memory.
+  INFO    machine:__init__      Initialize ControlUnit class.
+  INFO    machine:simulation    Start processing commands.
+  INFO    machine:decode_and_execute_instruction Current Procedure : WHILE
+  INFO    machine:decode_and_execute_instruction Operations :    ['write_mem_from_IO', 'read_io_to_stack', 'print']
+  INFO    machine:decode_and_execute_instruction Line in code :  1
+  INFO    machine:decode_and_execute_instruction Condition for WHILE 1
+  INFO    machine:decode_and_execute_instruction IF ELSE NOT FOUND.
+  INFO    machine:decode_and_execute_instruction Invoke write_mem_from_IO
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY H in port
+  INFO    machine:decode_and_execute_instruction Invoke read_io_to_stack
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port H.
+  INFO    machine:decode_and_execute_instruction Invoke print
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack H.
+  INFO    machine:print_handler Append H in output_buffer
+  INFO    machine:decode_and_execute_instruction IF ELSE NOT FOUND.
+  INFO    machine:decode_and_execute_instruction Invoke write_mem_from_IO
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY E in port
+  INFO    machine:decode_and_execute_instruction Invoke read_io_to_stack
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port E.
+  INFO    machine:decode_and_execute_instruction Invoke print
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack E.
+  INFO    machine:print_handler Append E in output_buffer
+  INFO    machine:decode_and_execute_instruction IF ELSE NOT FOUND.
+  INFO    machine:decode_and_execute_instruction Invoke write_mem_from_IO
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY L in port
+  INFO    machine:decode_and_execute_instruction Invoke read_io_to_stack
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port L.
+  INFO    machine:decode_and_execute_instruction Invoke print
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack L.
+  INFO    machine:print_handler Append L in output_buffer
+  INFO    machine:decode_and_execute_instruction IF ELSE NOT FOUND.
+  INFO    machine:decode_and_execute_instruction Invoke write_mem_from_IO
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY P in port
+  INFO    machine:decode_and_execute_instruction Invoke read_io_to_stack
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port P.
+  INFO    machine:decode_and_execute_instruction Invoke print
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack P.
+  INFO    machine:print_handler Append P in output_buffer
+  INFO    machine:decode_and_execute_instruction IF ELSE NOT FOUND.
+  INFO    machine:decode_and_execute_instruction Invoke write_mem_from_IO
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY _ in port
+  INFO    machine:decode_and_execute_instruction Invoke read_io_to_stack
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port _.
+  INFO    machine:decode_and_execute_instruction Invoke print
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack _.
+  INFO    machine:print_handler Append _ in output_buffer
+  INFO    machine:decode_and_execute_instruction IF ELSE NOT FOUND.
+  INFO    machine:decode_and_execute_instruction Invoke write_mem_from_IO
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY M in port
+  INFO    machine:decode_and_execute_instruction Invoke read_io_to_stack
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port M.
+  INFO    machine:decode_and_execute_instruction Invoke print
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack M.
+  INFO    machine:print_handler Append M in output_buffer
+  INFO    machine:decode_and_execute_instruction IF ELSE NOT FOUND.
+  INFO    machine:decode_and_execute_instruction Invoke write_mem_from_IO
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY E in port
+  INFO    machine:decode_and_execute_instruction Invoke read_io_to_stack
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port E.
+  INFO    machine:decode_and_execute_instruction Invoke print
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack E.
+  INFO    machine:print_handler Append E in output_buffer
+  INFO    machine:decode_and_execute_instruction IF ELSE NOT FOUND.
+  INFO    machine:decode_and_execute_instruction Invoke write_mem_from_IO
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY _ in port
+  INFO    machine:decode_and_execute_instruction Invoke read_io_to_stack
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port _.
+  INFO    machine:decode_and_execute_instruction Invoke print
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack _.
+  INFO    machine:print_handler Append _ in output_buffer
+  INFO    machine:decode_and_execute_instruction IF ELSE NOT FOUND.
+  INFO    machine:decode_and_execute_instruction Invoke write_mem_from_IO
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY P in port
+  INFO    machine:decode_and_execute_instruction Invoke read_io_to_stack
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port P.
+  INFO    machine:decode_and_execute_instruction Invoke print
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack P.
+  INFO    machine:print_handler Append P in output_buffer
+  INFO    machine:decode_and_execute_instruction IF ELSE NOT FOUND.
+  INFO    machine:decode_and_execute_instruction Invoke write_mem_from_IO
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY L in port
+  INFO    machine:decode_and_execute_instruction Invoke read_io_to_stack
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port L.
+  INFO    machine:decode_and_execute_instruction Invoke print
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack L.
+  INFO    machine:print_handler Append L in output_buffer
+  INFO    machine:decode_and_execute_instruction IF ELSE NOT FOUND.
+  INFO    machine:decode_and_execute_instruction Invoke write_mem_from_IO
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY E in port
+  INFO    machine:decode_and_execute_instruction Invoke read_io_to_stack
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port E.
+  INFO    machine:decode_and_execute_instruction Invoke print
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack E.
+  INFO    machine:print_handler Append E in output_buffer
+  INFO    machine:decode_and_execute_instruction IF ELSE NOT FOUND.
+  INFO    machine:decode_and_execute_instruction Invoke write_mem_from_IO
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY A in port
+  INFO    machine:decode_and_execute_instruction Invoke read_io_to_stack
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port A.
+  INFO    machine:decode_and_execute_instruction Invoke print
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack A.
+  INFO    machine:print_handler Append A in output_buffer
+  INFO    machine:decode_and_execute_instruction IF ELSE NOT FOUND.
+  INFO    machine:decode_and_execute_instruction Invoke write_mem_from_IO
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY S in port
+  INFO    machine:decode_and_execute_instruction Invoke read_io_to_stack
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port S.
+  INFO    machine:decode_and_execute_instruction Invoke print
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack S.
+  INFO    machine:print_handler Append S in output_buffer
+  INFO    machine:decode_and_execute_instruction IF ELSE NOT FOUND.
+  INFO    machine:decode_and_execute_instruction Invoke write_mem_from_IO
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY E in port
+  INFO    machine:decode_and_execute_instruction Invoke read_io_to_stack
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port E.
+  INFO    machine:decode_and_execute_instruction Invoke print
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack E.
+  INFO    machine:print_handler Append E in output_buffer
+  INFO    machine:decode_and_execute_instruction IF ELSE NOT FOUND.
+  INFO    machine:decode_and_execute_instruction Invoke write_mem_from_IO
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  COPY 
+   in port
+  INFO    machine:decode_and_execute_instruction Invoke read_io_to_stack
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port 
+  .
+  INFO    machine:decode_and_execute_instruction Invoke print
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 
+  .
+  INFO    machine:print_handler Append 
+   in output_buffer
+  INFO    machine:decode_and_execute_instruction IF ELSE NOT FOUND.
+  INFO    machine:decode_and_execute_instruction Invoke write_mem_from_IO
+  INFO    machine:write_mem_from_IO_handler write_mem_from_IO_handler Started.
+  INFO    machine:signal_write  signal_write operation started.With selector write_data_to_IO_port_from_buffer.With data 
+  INFO    machine:signal_write  Try write data from inner buffer to IO port.
+  INFO    machine:signal_write  Input buffer is empty
+  INFO    machine:decode_and_execute_instruction Invoke read_io_to_stack
+  INFO    machine:read_io_to_stack_handler read_io_to_stack_handler Started.
+  INFO    machine:signal_latch_push_data signal_latch_push_data started with selector read_data_from_IO_port_to_stack
+  INFO    machine:signal_latch_push_data Value of stack_top_register 0
+  INFO    machine:signal_latch_push_data Read data from IO port to stack.
+  INFO    machine:signal_latch_push_data Data from port 
+  .
+  INFO    machine:decode_and_execute_instruction Invoke print
+  INFO    machine:print_handler print_handler started.
+  INFO    machine:signal_latch_pop signal_latch_pop started
+  INFO    machine:signal_latch_pop Value of stack_top_register 0
+  INFO    machine:signal_latch_pop Element from stack 
+  .
+  INFO    machine:print_handler Append 
+   in output_buffer
+  INFO    machine:simulation    Nothing to do.Current command is null.Exit.
+  INFO    machine:main          output:['H', 'E', 'L', 'P', '_', 'M', 'E', '_', 'P', 'L', 'E', 'A', 'S', 'E', '\n', '\n']
+  INFO    machine:main          Instructions:50
+  INFO    machine:main          ticks:147
+
+out_stdout: |
+  ============================================================
+  output:['H', 'E', 'L', 'P', '_', 'M', 'E', '_', 'P', 'L', 'E', 'A', 'S', 'E', '\n', '\n']
+  Instructions:50
+  ticks:147
+out_code: !!binary |
+  Ww0KICAgIHsNCiAgICAgICAgInByb2NlZHVyZV9uYW1lIjogIldISUxFIiwNCiAgICAgICAgImJh
+  c2ljX29wZXJhdGlvbnMiOiBbDQogICAgICAgICAgICAid3JpdGVfbWVtX2Zyb21fSU8iLA0KICAg
+  ICAgICAgICAgInJlYWRfaW9fdG9fc3RhY2siLA0KICAgICAgICAgICAgInByaW50Ig0KICAgICAg
+  ICBdLA0KICAgICAgICAiY29uZGl0aW9uIjogIjEiLA0KICAgICAgICAibGluZV9pbl9kZXJlZmVy
+  ZW5jZV9jb2RlIjogMQ0KICAgIH0NCl0=
