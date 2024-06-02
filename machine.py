@@ -13,7 +13,8 @@ handler.setLevel(logging.INFO)
 formatter = logging.Formatter(' %(levelname)s:%(name)s:%(asctime)s - %(message)s')
 handler.setFormatter(formatter)
 root.addHandler(handler)
-
+instruction_counter = 0
+ticks = 0
 
 class Signals(str, Enum):
     INC = "inc"
@@ -78,6 +79,10 @@ class DataPath:
             self._counter += 1
 
     def restore_memory_register(self):
+
+        global instruction_counter,ticks
+        ticks+=1
+        instruction_counter += 1
         root.info(f"Restore memory register to {self.memory_size - 1}")
         self.data_register = self.memory_size - 1
 
@@ -85,6 +90,9 @@ class DataPath:
         return f"Memory size:{self.memory_size}\nIo_port_read:{self.io_port_write}\nIo port write:{self.io_port_write}\nData register:{self.data_register}\nMemory:{[el for el in self.memory if el != '']}\nCommand register:{self.command_register}\nStack size:{self.stack_size}\nInput buffer:{self.input_buffer}\nOutput buffer:{self.output_buffer}"
 
     def signal_latch_data_register(self, sel):
+        global instruction_counter,ticks
+        ticks+=3
+        instruction_counter += 1
         root.info("signal_latch_data_register")
         root.info(f"Value of data_register {self.data_register}")
 
@@ -95,6 +103,9 @@ class DataPath:
         assert self._memory_delimiter <= self.data_register < self.memory_size, f"out of memory: \nMemory  size:{self.memory_size}\nMemory delimeter:{self._memory_delimiter}\nData register:{self.data_register}"
 
     def signal_latch_command_register(self, sel):
+        global instruction_counter,ticks
+        ticks+=3
+        instruction_counter += 1
         assert sel in {Signals.INC.value, Signals.DEC.value}, "internal error, incorrect selector: {}".format(sel)
 
         self.command_register = self.command_register - 1 if sel == Op.Opcode.DEC.value else self.command_register + 1
@@ -104,6 +115,9 @@ class DataPath:
 
     # read_data
     def signal_latch_push_data(self, sel):
+        global instruction_counter,ticks
+        ticks+=3
+        instruction_counter += 1
         root.info(f"signal_latch_push_data started with selector {sel}")
         self.stack_top_register += 1
         root.info(f"Value of stack_top_register {self.stack_top_register}")
@@ -129,6 +143,9 @@ class DataPath:
         self.stack_top_register = len(self.stack) - 1
 
     def signal_latch_pop(self) -> int:
+        global instruction_counter,ticks
+        ticks+=2
+        instruction_counter += 1
         root.info("signal_latch_pop started")
         root.info(f"Value of stack_top_register {self.stack_top_register}")
         assert 0 <= self.stack_top_register < self.stack_size, "out of memory: {}".format(
@@ -139,6 +156,9 @@ class DataPath:
         return element
 
     def signal_write(self, sel, data=""):
+        global instruction_counter,ticks
+        ticks+=4
+        instruction_counter += 1
         root.info(f"signal_write operation started.With selector {sel}.With data {data}")
         assert 0 <= self.data_register < self.memory_size, "out of memory: {}".format(
             self.data_register)
@@ -174,7 +194,6 @@ class ControlUnit:
     def __init__(self, data_path):
         root.info("Initialize ControlUnit class.")
         self.data_path = data_path
-        self.tick = 0
         self.basic_operations_handlers = {
             "write_mem_from_IO": self.write_mem_from_IO_handler,
             "read_io_to_stack": self.read_io_to_stack_handler,
@@ -190,9 +209,11 @@ class ControlUnit:
         }
         self.stop_machine = False
         self.current_command = ""
+
     def read_io_to_stack_handler(self):
         root.info("read_io_to_stack_handler Started.")
         self.data_path.signal_latch_push_data(Signals.read_data_from_IO_port_to_stack)
+
     def write_mem_from_IO_handler(self):
         root.info("write_mem_from_IO_handler Started.")
         self.data_path.signal_write(Signals.write_data_to_IO_port_from_buffer)
@@ -200,6 +221,7 @@ class ControlUnit:
     def print_handler(self):
         root.info("print_handler started.")
         res = self.data_path.signal_latch_pop()
+        root.info(f"Append {res} in output_buffer")
         self.data_path.output_buffer.append(res)
 
     def inc_handler(self):
@@ -253,13 +275,6 @@ class ControlUnit:
         root.info("Halt operation started.")
         self.stop_machine = True
 
-    def inc_tick(self):
-        root.info("Inc tick")
-        self.tick += 1
-
-    def get_tick(self):
-        return self.tick
-
     def signal_latch_program_counter(self, sel_next):
 
         if sel_next:
@@ -312,7 +327,8 @@ class ControlUnit:
 
                         if_condition = if_condition.replace("$data_register", f"{self.data_path.data_register}")
                     if "$*data_register" in if_condition:
-                        root.info(f"Detected $data_register in if_condition.Replace with value from memory addressed via data_register.")
+                        root.info(
+                            f"Detected $data_register in if_condition.Replace with value from memory addressed via data_register.")
 
                         if_condition = if_condition.replace("$*data_register",
                                                             f"{self.data_path.memory[self.data_path.data_register]}")
@@ -348,21 +364,20 @@ def simulation(data, input_buffer, memory_size, stack_size, limit):
     root.info(f"Stack size - {stack_size}.")
     root.info(f"limit for commands - {memory_size}.")
     data_path = DataPath(data, memory_size, input_buffer, stack_size)
-
+    global instruction_counter
     control_unit = ControlUnit(data_path)
-    instr_counter = 0
     root.info("Start processing commands.")
-    while instr_counter < limit and data_path.memory[
+    while instruction_counter < limit and data_path.memory[
         data_path.command_register] != "" and not control_unit.stop_machine:
         control_unit.decode_and_execute_instruction()
-        instr_counter += 1
-    if instr_counter > limit:
+        instruction_counter += 1
+    if instruction_counter > limit:
         root.info("Limit of commands  is reached.Exit")
     elif data_path.memory[data_path.command_register] == "":
         root.info("Nothing to do.Current command is null.Exit.")
     else:
         root.info("HALT invoked.Exit")
-    return control_unit.data_path.output_buffer, instr_counter, control_unit.get_tick(), control_unit
+    return control_unit.data_path.output_buffer, control_unit
 
 
 def file_checker(path):
@@ -402,15 +417,15 @@ def main():
             input_buffer.append(char)
     root.info(f"Parse input data into list of chars.{input_buffer}")
     root.info(f"Start simulation.")
-    output, instr_counter, ticks, control_un = simulation(
+    output, control_un = simulation(
         data=code,
         input_buffer=input_buffer,
         memory_size=512,
         stack_size=64,
-        limit=128, )
+        limit=1000, )
 
     root.info(f"output:{output}")
-    root.info(f"Instructions:{instr_counter}")
+    root.info(f"Instructions:{instruction_counter}")
     root.info(f"ticks:{ticks}")
 
 
