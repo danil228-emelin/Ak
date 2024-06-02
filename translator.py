@@ -84,7 +84,7 @@ def dereference_procedure_name(code: List[str], input_file_name):
                 literal = splitted_line[2]
                 assert re.match(r"\".+\"",
                                 literal
-                                ) is not None, f"WRITE must have string literal in \"\" \nLine {line_number} in file {input_file_name}\n{line}\n{splitted_line[ind + 2 + 1]}"
+                                ) is not None, f"WRITE must have string literal in \"\" \nLine {line_number} in file {input_file_name}\n{line}"
 
                 chars = list(literal)[1:-1]
                 chars.reverse()
@@ -135,7 +135,7 @@ def dereference_procedure_name(code: List[str], input_file_name):
                 dereference_code.append(line)
             elif splitted_line[0] == "LOOP":
                 assert splitted_line[2].isdigit(), \
-                    f"In LOOP body iterations must be positive digit.\nLine {line_number} in file {input_file_name}\n{line}\n{line.strip()}"
+                    f"In LOOP body iterations must be positive digit.\nLine {line_number} in file {input_file_name}\n{line}"
                 dereference_code.append(
                     "LOOP " + TranslatorHelper.dictionary_definition_procedures[splitted_line[1]] + " " + splitted_line[
                         2] + " ;")
@@ -143,7 +143,7 @@ def dereference_procedure_name(code: List[str], input_file_name):
 
             elif splitted_line[0] == "WHILE":
                 assert splitted_line[2] in TranslatorHelper.dictionary_definition_procedures, \
-                    f"Error in WHILE body:WRONG KEY IN TranslatorHelper.dictionary_definition_procedures.\nWrong key:\"{splitted_line}\"\nLine:{line_number}\nFile:{input_file_name}\n{line}"
+                    f"Error in WHILE body:WRONG KEY IN TranslatorHelper.dictionary_definition_procedures.\nWrong key:\"{splitted_line[2]}\"\nLine:{line_number}\nFile:{input_file_name}\n{line}"
                 dereference_code.append(
                     "WHILE " + splitted_line[1] + " " + TranslatorHelper.dictionary_definition_procedures[
                         splitted_line[2]] + " ;")
